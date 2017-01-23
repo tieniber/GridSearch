@@ -1,0 +1,38 @@
+{
+  "name": "GridSearch",
+  "version": "1.0.0",
+  "description": "Search Mendix Template Grids and Data Grids using a single-field search.",
+  "license": "Apache 2",
+  "author": "Eric Tieniber",
+  "private": true,
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-if": "^2.0.1",
+    "gulp-intercept": "^0.1.0",
+    "gulp-json-transform": "^0.4.2",
+    "gulp-newer": "^1.3.0",
+    "gulp-util": "^3.0.7",
+    "gulp-zip": "^3.2.0",
+    "widgetbuilder-gulp-helper": "https://github.com/JelteMX/widgetbuilder-gulp-helper/archive/1.0.1.tar.gz",
+    "yargs": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=5"
+  },
+  "generatorVersion": "2.0.1",
+  "paths": {
+    "testProjectFolder": "./test/",
+    "testProjectFileName": "Test.mpr"
+  },
+  "scripts": {
+    "build": "node ./node_modules/gulp/bin/gulp build",
+    "version": "node ./node_modules/gulp/bin/gulp version",
+    "icon": "node ./node_modules/gulp/bin/gulp icon",
+    "folders": "node ./node_modules/gulp/bin/gulp folders",
+    "modeler": "node ./node_modules/gulp/bin/gulp modeler"
+  }
+}
