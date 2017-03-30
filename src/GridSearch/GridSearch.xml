@@ -11,6 +11,15 @@
             <category>Appearance</category>
             <description>The name of the grid on this page, as configured in the modeler.</description>
         </property>
+		<property key="searchMethodParam" type="enumeration" defaultValue="startswith">
+            <caption>Search Method</caption>
+            <category>Behavior</category>
+            <description>Search method to use</description>
+            <enumerationValues>
+                <enumerationValue key="startswith">starts-with</enumerationValue>
+                <enumerationValue key="contains">contains</enumerationValue>
+            </enumerationValues>
+        </property>
 		<property key="searchAttributes" type="object" isList="true" required="false">
             <caption>Search Attributes</caption>
             <category>Behavior</category>
@@ -21,7 +30,12 @@
 		            <category>Behavior</category>
 		            <description>The type of objects in the grid.</description>
 		        </property>
-				<property key="searchAttribute" type="attribute" entityProperty="gridEntity" required="true">
+				<property key="searchEntity" type="entity" required="true" entityProperty="gridEntity" isPath="optional" pathType="reference">
+		            <caption>Path to search entity</caption>
+		            <category>Behavior</category>
+		            <description>The entity that contains the attribute to search. This can be the same entity as in the grid, or follow a path to associated objects.</description>
+		        </property>
+				<property key="searchAttribute" type="attribute" entityProperty="searchEntity" required="true">
 					<caption>Search Attribute</caption>
 					<category>Behavior</category>
 					<description>The attribute to search on the grid.</description>
