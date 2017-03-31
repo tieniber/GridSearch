@@ -20,17 +20,17 @@
                 <enumerationValue key="contains">contains</enumerationValue>
             </enumerationValues>
         </property>
+		<property key="gridEntity" type="entity" required="true">
+		    <caption>Grid Entity</caption>
+			<category>Behavior</category>
+	 		<description>The type of objects in the grid.</description>
+		</property>
 		<property key="searchAttributes" type="object" isList="true" required="false">
             <caption>Search Attributes</caption>
             <category>Behavior</category>
             <description>The attributes that will be considered when searching.</description>
             <properties>
-				<property key="gridEntity" type="entity" required="true" >
-		            <caption>Grid Entity</caption>
-		            <category>Behavior</category>
-		            <description>The type of objects in the grid.</description>
-		        </property>
-				<property key="searchEntity" type="entity" required="true" entityProperty="gridEntity" isPath="optional" pathType="reference">
+				<property key="searchEntity" type="entity" required="true" entityProperty="../gridEntity" isPath="optional" pathType="reference">
 		            <caption>Path to search entity</caption>
 		            <category>Behavior</category>
 		            <description>The entity that contains the attribute to search. This can be the same entity as in the grid, or follow a path to associated objects.</description>
