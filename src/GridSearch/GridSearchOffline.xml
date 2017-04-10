@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="GridSearch.widget.GridSearchOffline" needsEntityContext="false" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>GridSearchOffline</name>
+    <description>The description of this widget.</description>
+
+    <icon />
+
+    <properties>
+        <property key="targetGridName" type="string" required="true" defaultValue="">
+            <caption>Grid Name</caption>
+            <category>Appearance</category>
+            <description>The name of the grid on this page, as configured in the modeler.</description>
+        </property>
+		<property key="searchMethodParam" type="enumeration" defaultValue="contains">
+            <caption>Search Method</caption>
+            <category>Behavior</category>
+            <description>Search method to use</description>
+            <enumerationValues>
+                <enumerationValue key="equals">equals</enumerationValue>
+                <enumerationValue key="lessThan">lessThan</enumerationValue>
+				<enumerationValue key="lessThanOrEquals">lessThanOrEquals</enumerationValue>
+                <enumerationValue key="greatherThan">greatherThan</enumerationValue>
+				<enumerationValue key="greaterThanOrEquals">greaterThanOrEquals</enumerationValue>
+                <enumerationValue key="contains">contains</enumerationValue>
+            </enumerationValues>
+        </property>
+		<property key="searchEntity" type="string" required="true">
+		    <caption>Grid Entity</caption>
+			<category>Behavior</category>
+	 		<description>The type of objects in the grid.</description>
+		</property>
+		<property key="searchAttribute" type="string" required="true">
+			<caption>Search Attribute</caption>
+			<category>Behavior</category>
+			<description>The attribute to search on the grid.</description>
+		</property>
+    </properties>
+</widget>

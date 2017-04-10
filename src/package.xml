@@ -3,6 +3,7 @@
     <clientModule name="GridSearch" version="1.0.0" xmlns="http://www.mendix.com/clientModule/1.0/">
         <widgetFiles>
             <widgetFile path="GridSearch/GridSearch.xml" />
+            <widgetFile path="GridSearch/GridSearchOffline.xml" />			
         </widgetFiles>
         <files>
             <file path="GridSearch/widget/" />
