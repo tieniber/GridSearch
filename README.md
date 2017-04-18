@@ -23,18 +23,17 @@ For more information on contributing to this repository visit [Contributing to a
 
 To use this widget, simply drop it on a page with a data grid, template grid, or list view and set up a few properties:
 
- - Online Widget:
-  - Grid Name: the "name" property of the list widget you want to search in
-  - Grid Entity: the entity show in the data grid.
-  - Search Method: choose from "contains" or "starts-with" searching
-  - Search Attributes: a list of attributes to search
-   - Path to search entity: a path to the entity which contains the attribute you want to search. You can choose the same entity as the grid entity, or follow a path over association to another entity.
-   - Search attribute: the attribute on the search entity to be searched
- - Offline Widget:
-  - Grid Name: the "name" property of the list widget you want to search in
-  - Grid Entity: the entity show in the data grid. NOTE: this is a text field in the offline widget. You must enter the value as: ModuleName.EntityName
-  - Search Attribute: the attribute on the grid entity to be searched. NOTE: this is a text field in the offline widget. You must enter the name of the attribute manually, exactly as it appears in the domain model.
-
+* Online Widget:
+   * Grid Name: the "name" property of the list widget you want to search in
+   * Grid Entity: the entity show in the data grid.
+   * Search Method: choose from "contains" or "starts-with" searching
+   * Search Attributes: a list of attributes to search
+      * Path to search entity: a path to the entity which contains the attribute you want to search. You can choose the same entity as the grid entity, or follow a path over association to another entity.
+      * Search attribute: the attribute on the search entity to be searched
+* Offline Widget:
+   * Grid Name: the "name" property of the list widget you want to search in
+   * Grid Entity: the entity show in the data grid. NOTE: this is a text field in the offline widget. You must enter the value as: ModuleName.EntityName
+   * Search Attribute: the attribute on the grid entity to be searched. NOTE: this is a text field in the offline widget. You must enter the name of the attribute manually, exactly as it appears in the domain model.
 
 ## Supported Data Types
 
