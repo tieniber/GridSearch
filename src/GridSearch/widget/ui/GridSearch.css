@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.gridSearch span {
+.gridSearch > span {
     position: absolute;
     top: 9px;
     left: 10px;
@@ -15,8 +15,8 @@
 
 .gridSearch button {
     position: absolute;
-    top: 0px;
-    right: 20px;
+    top: 7px;
+    right: 2px;
 }
 
 .gridSearch .btn-transparent {
