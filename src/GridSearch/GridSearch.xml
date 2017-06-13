@@ -11,33 +11,39 @@
             <category>Appearance</category>
             <description>The name of the grid on this page, as configured in the modeler.</description>
         </property>
-		<property key="searchMethodParam" type="enumeration" defaultValue="startswith">
-            <caption>Search Method</caption>
-            <category>Behavior</category>
-            <description>Search method to use</description>
-            <enumerationValues>
-                <enumerationValue key="startswith">starts-with</enumerationValue>
-                <enumerationValue key="contains">contains</enumerationValue>
-            </enumerationValues>
-        </property>
 		<property key="gridEntity" type="entity" required="true">
 		    <caption>Grid Entity</caption>
 			<category>Behavior</category>
 	 		<description>The type of objects in the grid.</description>
 		</property>
+		<property key="minCharacters" type="string" required="false" defaultValue="">
+			<caption>Min Chars</caption>
+			<category>Behavior</category>
+			<description>Minimum characters required to perform a search.</description>
+		</property>
+
 		<property key="searchAttributes" type="object" isList="true" required="false">
             <caption>Search Attributes</caption>
             <category>Behavior</category>
             <description>The attributes that will be considered when searching.</description>
             <properties>
+				<property key="searchMethodParam" type="enumeration" defaultValue="startswith">
+					<caption>Search Method</caption>
+					<category>Basic</category>
+					<description>Search method to use</description>
+					<enumerationValues>
+						<enumerationValue key="startswith">starts-with</enumerationValue>
+						<enumerationValue key="contains">contains</enumerationValue>
+					</enumerationValues>
+				</property>
 				<property key="searchEntity" type="entity" required="true" entityProperty="../gridEntity" isPath="optional" pathType="reference">
-		            <caption>Path to search entity</caption>
-		            <category>Behavior</category>
+		            <caption>The search entity</caption>
+		            <category>Basic</category>
 		            <description>The entity that contains the attribute to search. This can be the same entity as in the grid, or follow a path to associated objects.</description>
 		        </property>
 				<property key="searchAttribute" type="attribute" entityProperty="searchEntity" required="true">
 					<caption>Search Attribute</caption>
-					<category>Behavior</category>
+					<category>Basic</category>
 					<description>The attribute to search on the grid.</description>
 					<attributeTypes>
 						<attributeType name="Enum"/>
@@ -48,7 +54,35 @@
 						<attributeType name="AutoNumber"/>
 					</attributeTypes>
 				</property>
+				<property key="customSearchEntity" type="entity" required="false" isPath="no">
+					<caption>Custom search entity</caption>
+					<category>Advanced (optional)</category>
+					<description>The entity that contains the attribute to search. This can be the same entity as in the grid, or follow a path to associated objects.</description>
+				</property>
+				<property key="customSearchAttribute" type="attribute" entityProperty="customSearchEntity" required="false">
+					<caption>Custom search attribute</caption>
+					<category>Advanced (optional)</category>
+					<description>The attribute to search on the grid.</description>
+					<attributeTypes>
+						<attributeType name="Enum"/>
+						<attributeType name="String"/>
+						<attributeType name="Integer"/>
+						<attributeType name="Decimal"/>
+						<attributeType name="Long"/>
+						<attributeType name="AutoNumber"/>
+					</attributeTypes>
+				</property>
+				<property key="customSearchPath" type="string" required="false">
+		            <caption>Custom search path</caption>
+		            <category>Advanced (optional)</category>
+		            <description>An optional extended xpath that can be used for paths to objects >1 association away.</description>
+		        </property>
             </properties>
         </property>
+		<property key="expertQuery" type="string" multiline="true" required="false" defaultValue="">
+			<caption>Query</caption>
+			<category>Expert Search</category>
+			<description>An xpath query to use in the search. Use {[1]} as a token for the search string.</description>
+		</property>
     </properties>
 </widget>

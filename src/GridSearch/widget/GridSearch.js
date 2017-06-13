@@ -19,15 +19,16 @@ define([
 
 
         widgetBase: null,
-        searchMethodParam: "",
+        //searchMethodParam: "",
 
         // Internal variables.
         _handles: null,
         _contextObj: null,
-        _searchMethod: "starts-with",
+        //_searchMethod: "starts-with",
 
         //modeler
         gridEntity: null,
+		minCharacters: 0,
 
         constructor: function() {
             this._handles = [];
@@ -35,13 +36,8 @@ define([
 
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
-            if (this.searchMethodParam === "startswith") {
-                this._searchMethod = "starts-with";
-            } else {
-                this._searchMethod = "contains";
-            }
 
-            this.connect(this.buttonNode, "click", "_clear");
+            this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
         },
 
         update: function(obj, callback) {
@@ -52,6 +48,11 @@ define([
                 this._grid = dijit.registry.byNode(gridNode);
                 if (this._grid) {
                     this.connect(this.searchNode, "keyup", "_searchKeyDown");
+					if (!this._grid.gridSearchWidgets) {
+						this._grid.gridSearchWidgets = {};
+					}
+					this._grid.gridSearchWidgets[this.id] = this;
+
                 } else {
                     console.log("Found a DOM node but could not find the grid widget.");
                 }
@@ -76,20 +77,50 @@ define([
 
             mendix.lang.nullExec(callback);
         },
+		_getSearchConstraintAllSearchBoxes: function() {
+			var fullConstraint = "";
+			for (var gridId in this._grid.gridSearchWidgets) {
+			  fullConstraint = fullConstraint + this._grid.gridSearchWidgets[gridId]._getSearchConstraint();
+			}
+			return fullConstraint;
+		},
         _getSearchConstraint: function() {
             var value = this.searchNode.value,
                 searchParams = [],
                 attributes = this.searchAttributes;
-            if (value) {
-                for (var i = 0, attr; attr = attributes[i]; ++i) {
-                    if (this.gridEntity === attr.searchEntity) {
-                        searchParams.push(this._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')");
-                    } else {
-                        searchParams.push(attr.searchEntity + "[" + this._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')]");
-                    }
-                }
+            if (value && value.length >= this.minCharacters) {
+				if(!this.expertQuery) {
+					//basic or advanced search
+					for (var i = 0, attr; attr = attributes[i]; ++i) {
+						if (attr.searchMethodParam === "startswith") {
+			                attr._searchMethod = "starts-with";
+			            } else {
+			                attr._searchMethod = "contains";
+			            }
+
+						if(!attr.customSearchEntity) {
+						//basic search
+							if (this.gridEntity === attr.searchEntity) {
+								searchParams.push(attr._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')");
+							} else {
+								searchParams.push(attr.searchEntity + "[" + attr._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')]");
+							}
+						} else {
+						//advanced search
+							searchParams.push(attr.customSearchPath + "[" + attr._searchMethod + "(" + attr.customSearchAttribute + ",'" + value + "')]");
+						}
+	                }
+				} else {
+					//expert search
+					return this.expertQuery.replace(/{\[1\]}/g, value).replace(/\r\n/g, ' ').replace(/''/g, '\'\'');
+				}
+
                 return "[" + searchParams.join(" or ") + "]";
-            } else return null;
+            } else if (this._grid.config.gridpresentation.waitforsearch) {
+				return "[1=0]"
+			} else {
+            	return "";
+        	}
         },
         _searchKeyDown: function() {
             var grid = this._grid,
@@ -108,10 +139,21 @@ define([
 
             clearTimeout(this._searchTimeout);
             this._searchTimeout = setTimeout(function() {
-                datasource.setConstraints(self._getSearchConstraint());
-                grid.reload();
+                datasource.setConstraints(self._getSearchConstraintAllSearchBoxes());
+
+				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+				if(grid.config.gridpresentation.waitforsearch && self.searchNode.value) {
+					grid._searchFilled = true;
+				}
+
+				grid.reload();
             }, 500);
         },
+		_clearAllSearchBoxes: function(e) {
+			for (var gridId in this._grid.gridSearchWidgets) {
+			  this._grid.gridSearchWidgets[gridId]._clear();
+			}
+		},
         _clear: function(e) {
             this.searchNode.value = "";
             dojoClass.add(this.buttonNode, "hidden");
@@ -122,7 +164,7 @@ define([
                 datasource = grid._dataSource;
             }
 
-            datasource.setConstraints(this._getSearchConstraint());
+            datasource.setConstraints(this._getSearchConstraintAllSearchBoxes());
             grid.reload();
 
         }
