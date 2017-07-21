@@ -1,25 +1,17 @@
 define([
     "dojo/_base/declare",
-    "mxui/widget/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "mxui/dom",
-    "dojo/dom",
+	"GridSearch/widget/Core",
     "dojo/dom-class",
-    "dojo/dom-style",
     "dojo/_base/lang",
     "dojo/query",
 
     "dojo/text!GridSearch/widget/template/GridSearch.html"
-], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoClass, dojoStyle, dojoLang, dojoQuery, widgetTemplate) {
+], function(declare, Core, dojoClass, dojoLang, dojoQuery, widgetTemplate) {
     "use strict";
 
-    return declare("GridSearch.widget.GridSearch", [_WidgetBase, _TemplatedMixin], {
+    return declare("GridSearch.widget.GridSearch", [Core], {
 
         templateString: widgetTemplate,
-
-
-        widgetBase: null,
-        //searchMethodParam: "",
 
         // Internal variables.
         _handles: null,
@@ -38,12 +30,17 @@ define([
             logger.debug(this.id + ".postCreate");
 
             this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
+			this.connect(this.searchNode, "keyup", "_clearOnEscape");
+
+			//retrieve state (if available)
+			this.searchNode.value = this.getState("searchValue", "");
+			this._updateClearButtonRendering();
         },
 
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
-
-            var gridNode = dojoQuery(".mx-name-" + this.targetGridName)[0];
+			var nodeList = dojoQuery(".mx-name-" + this.targetGridName)
+            var gridNode = nodeList ? nodeList[nodeList.length-1]: null;
             if (gridNode) {
                 this._grid = dijit.registry.byNode(gridNode);
                 if (this._grid) {
@@ -52,6 +49,11 @@ define([
 						this._grid.gridSearchWidgets = {};
 					}
 					this._grid.gridSearchWidgets[this.id] = this;
+
+					//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+					if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+						this._grid._searchFilled = true;
+					}
 
                 } else {
                     console.log("Found a DOM node but could not find the grid widget.");
@@ -71,21 +73,17 @@ define([
         uninitialize: function() {
             logger.debug(this.id + ".uninitialize");
         },
-
+		storeState: function(t) {
+			t("searchValue", this.searchNode.value);
+		},
         _updateRendering: function(callback) {
             logger.debug(this.id + "._updateRendering");
 
-            mendix.lang.nullExec(callback);
+           if(callback) {callback()};
         },
-		_getSearchConstraintAllSearchBoxes: function() {
-			var fullConstraint = "";
-			for (var gridId in this._grid.gridSearchWidgets) {
-			  fullConstraint = fullConstraint + this._grid.gridSearchWidgets[gridId]._getSearchConstraint();
-			}
-			return fullConstraint;
-		},
+
         _getSearchConstraint: function() {
-            var value = this.searchNode.value,
+            var value = this.searchNode.value.replace(/''/g, '\'\''),
                 searchParams = [],
                 attributes = this.searchAttributes;
             if (value && value.length >= this.minCharacters) {
@@ -116,57 +114,38 @@ define([
 				}
 
                 return "[" + searchParams.join(" or ") + "]";
-            } else if (this._grid.config.gridpresentation.waitforsearch) {
-				return "[1=0]"
 			} else {
             	return "";
         	}
         },
-        _searchKeyDown: function() {
-            var grid = this._grid,
-                datasource = grid._datasource,
-                self = this;
-
-            if (!datasource) {
-                datasource = grid._dataSource;
-            }
-
-            if (this.searchNode.value === "") {
+        _updateClearButtonRendering: function() {
+        	if (this.searchNode.value === "") {
                 dojoClass.add(this.buttonNode, "hidden");
             } else {
                 dojoClass.remove(this.buttonNode, "hidden");
             }
-
-            clearTimeout(this._searchTimeout);
-            this._searchTimeout = setTimeout(function() {
-                datasource.setConstraints(self._getSearchConstraintAllSearchBoxes());
-
-				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if(grid.config.gridpresentation.waitforsearch && self.searchNode.value) {
-					grid._searchFilled = true;
-				}
-
-				grid.reload();
-            }, 500);
         },
-		_clearAllSearchBoxes: function(e) {
-			for (var gridId in this._grid.gridSearchWidgets) {
-			  this._grid.gridSearchWidgets[gridId]._clear();
-			}
+        _searchKeyDown: function() {
+			this._updateClearButtonRendering();
+			this._fireSearch();
+        },
+		_clearOnEscape: function(e) {
+		 if (e.keyCode == 27) {
+			 this._clearAllSearchBoxes();
+		 }
 		},
-        _clear: function(e) {
+        _clear: function() {
             this.searchNode.value = "";
             dojoClass.add(this.buttonNode, "hidden");
-            var grid = this._grid,
-                datasource = grid._datasource;
-
-            if (!datasource) {
-                datasource = grid._dataSource;
-            }
-
-            datasource.setConstraints(this._getSearchConstraintAllSearchBoxes());
-            grid.reload();
-
+		},
+        _reloadGrid: function() {
+        	if (this._grid.reload) {
+        		this._grid.reload();
+        	} else if (this._grid.update) {
+        		this._grid.update();
+        	} else {
+        		console.log("Could not find the grid refresh/reload function");
+        	}
         }
     });
 });

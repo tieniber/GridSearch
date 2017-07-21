@@ -22,3 +22,28 @@
 .gridSearch .btn-transparent {
     border: none;
 }
+
+.gridFilter select {
+	padding-left: 30px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+/* CSS Statements that only apply on webkit-based browsers (Chrome, Safari, etc.) */
+	.gridFilter select {
+		padding-left: 0px;
+		text-indent: 22px;
+	}
+}
+
+.gridSearchMX .mx-grid-search-item {
+	width:100%;
+}
+.gridSearchMX .mx-grid-search-label{
+	width: 50%;
+}
+.gridSearchMX .mx-grid-search-input {
+	width:100%;
+}
+.gridSearchMX .mx-grid-search-label+.mx-grid-search-input {
+	width:50%;
+}
