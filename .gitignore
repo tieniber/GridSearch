@@ -6,6 +6,8 @@ test/theme/
 test/userlib/
 test/.classpath
 test/.project
+test/.svn
+test/.mendix-cache
 test6/javasource/
 test6/deployment/
 test6/.classpath
