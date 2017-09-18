@@ -28,10 +28,18 @@
             <category>Behavior</category>
             <description>The attributes that will be considered when searching.</description>
             <properties>
-				<property key="searchDescription" type="string" required="true">
-					<caption>Description</caption>
-					<category>Basic</category>
-					<description>Describe the field to be searched.</description>
+				<property key="searchAttributeParam" type="attribute" required="false" entityProperty="../gridEntity" isPath="optional" pathType="reference">
+		            <caption>Search Attribute</caption>
+		            <category>Basic</category>
+		            <description>The attribute to search. This can be in the same entity as in the grid, or follow a path to associated objects.</description>
+					<attributeTypes>
+						<attributeType name="Enum"/>
+						<attributeType name="String"/>
+						<attributeType name="Integer"/>
+						<attributeType name="Decimal"/>
+						<attributeType name="Long"/>
+						<attributeType name="AutoNumber"/>
+					</attributeTypes>
 				</property>
 				<property key="searchMethodParam" type="enumeration" defaultValue="startswith">
 					<caption>Search Method</caption>
@@ -41,24 +49,6 @@
 						<enumerationValue key="startswith">starts-with</enumerationValue>
 						<enumerationValue key="contains">contains</enumerationValue>
 					</enumerationValues>
-				</property>
-				<property key="searchEntity" type="entity" required="false" entityProperty="../gridEntity" isPath="optional" pathType="reference">
-		            <caption>The search entity</caption>
-		            <category>Basic</category>
-		            <description>The entity that contains the attribute to search. This can be the same entity as in the grid, or follow a path to associated objects.</description>
-		        </property>
-				<property key="searchAttribute" type="attribute" entityProperty="searchEntity" required="false">
-					<caption>Search Attribute</caption>
-					<category>Basic</category>
-					<description>The attribute to search on the grid.</description>
-					<attributeTypes>
-						<attributeType name="Enum"/>
-						<attributeType name="String"/>
-						<attributeType name="Integer"/>
-						<attributeType name="Decimal"/>
-						<attributeType name="Long"/>
-						<attributeType name="AutoNumber"/>
-					</attributeTypes>
 				</property>
 				<property key="customSearchEntity" type="entity" required="false" isPath="no">
 					<caption>Custom search entity</caption>

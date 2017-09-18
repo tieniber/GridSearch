@@ -98,10 +98,13 @@ define([
 
 						if(!attr.customSearchEntity) {
 						//basic search
-							if (this.gridEntity === attr.searchEntity) {
-								searchParams.push(attr._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')");
+							var searchPath = attr.searchAttributeParam.substring(0, attr.searchAttributeParam.lastIndexOf("/"));
+							var searchAttribute = attr.searchAttributeParam.substring(attr.searchAttributeParam.lastIndexOf("/") + 1, attr.searchAttributeParam.length);
+
+							if(searchPath) {
+								searchParams.push(searchPath + "[" + attr._searchMethod + "(" + searchAttribute + ",'" + value + "')]");
 							} else {
-								searchParams.push(attr.searchEntity + "[" + attr._searchMethod + "(" + attr.searchAttribute + ",'" + value + "')]");
+								searchParams.push(attr._searchMethod + "(" + searchAttribute + ",'" + value + "')");
 							}
 						} else {
 						//advanced search
@@ -139,10 +142,10 @@ define([
             dojoClass.add(this.buttonNode, "hidden");
 		},
         _reloadGrid: function() {
-        	if (this._grid.reload) {
-        		this._grid.reload();
-        	} else if (this._grid.update) {
+			if (this._grid.update) {
         		this._grid.update();
+        	} else if (this._grid.reload) {
+				this._grid.reload();
         	} else {
         		console.log("Could not find the grid refresh/reload function");
         	}

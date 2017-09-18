@@ -6,9 +6,9 @@ define([
     "dojo/query",
 	"dojo/aspect",
 	"dojo/dom-construct",
-	"mxui/widget/SearchInput",
+	//"mxui/widget/SearchInput",
     "dojo/text!GridSearch/widget/template/GridSearchMX.html"
-], function(declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, searchInput, widgetTemplate) {
+], function(declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, /*searchInput,*/ widgetTemplate) {
     "use strict";
 
     return declare("GridSearch.widget.GridSearchMX", [Core], {
@@ -98,7 +98,7 @@ define([
 				console.error("GridSearchMX type not set correctly. This is a JavaScript issue.");
 			}
 
-			this.searchWidget = new searchInput(dojoLang.mixin({
+			this.searchWidget = new mxui.widget.SearchInput(dojoLang.mixin({
                 entity: this.gridEntity,
                 mxcontext: this.mxcontext
             }, parameters));
