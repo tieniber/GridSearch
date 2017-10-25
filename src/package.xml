@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <package xmlns="http://www.mendix.com/package/1.0/">
-    <clientModule name="GridSearch" version="1.0.0" xmlns="http://www.mendix.com/clientModule/1.0/">
+    <clientModule name="GridSearch" version="2.1.0" xmlns="http://www.mendix.com/clientModule/1.0/">
         <widgetFiles>
+			<widgetFile path="GridSearch/Comparison.xml" />
+			<widgetFile path="GridSearch/GridFilter.xml" />
+			<widgetFile path="GridSearch/Dropdown.xml" />
+			<widgetFile path="GridSearch/EnumCheckbox.xml" />
             <widgetFile path="GridSearch/GridSearch.xml" />
-            <widgetFile path="GridSearch/GridSearchOffline.xml" />			
+            <widgetFile path="GridSearch/GridSearchOffline.xml" />
+			<widgetFile path="GridSearch/ResetButton.xml" />
         </widgetFiles>
         <files>
             <file path="GridSearch/widget/" />
