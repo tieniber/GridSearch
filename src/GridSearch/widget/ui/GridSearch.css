@@ -47,3 +47,25 @@
 .gridSearchMX .mx-grid-search-label+.mx-grid-search-input {
 	width:50%;
 }
+
+.checkBoxFilter {
+  font-size: 12;
+  margin: 16px 5px 14px 20px;
+  color: #42576a;
+}
+
+.checkBoxFilter input[type = "checkbox"]{
+  margin: 11px 5px 9px 12px;
+  border-color: #cccccc;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.checkBoxFilter label {
+  font-size: 11;
+  color: #41494c;
+  display: inline-block;
+  vertical-align: middle;
+}

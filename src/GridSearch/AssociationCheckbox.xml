@@ -18,8 +18,15 @@
 			<description>The type of objects in the grid.</description>
 		</property>
 
+    <property key="filterEntity" type="entity" required="true">
+      <caption>Filter Entity</caption>
+      <category>Behavior</category>
+      <description>Attributes of the filterContainer</description>
+    </property>
 
-		<property key="pathToAttribute" type="attribute" entityProperty="gridEntity" isPath="optional" pathType="reference" required="false">
+
+
+		<property key="pathToAttribute" type="attribute" entityProperty="gridEntity" isPath="optional" pathType="referenceSet" required="true">
 			<caption>Category</caption>
 			<category>Behavior</category>
 			<description>The attribute to use in the filter on Assocaition. When following a path, any attribute type is valid.</description>
@@ -35,7 +42,9 @@
 			</attributeTypes>
 		</property>
 
-    <property key="pathToFilter" type="attribute" entityProperty="gridEntity" isPath="optional" pathType="reference" required="false">
+
+
+    <property key="pathToFilter" type="attribute" entityProperty="filterEntity" isPath="optional" pathType="reference" required="true">
       <caption>Filter</caption>
       <category>Behavior</category>
       <description>The attribute to use in the filter on Assocaition. When following a path, any attribute type is valid.</description>
@@ -50,5 +59,27 @@
         <attributeType name="Enum"/>
       </attributeTypes>
     </property>
+
+    <property key="pathToFilterCategory" type="attribute" entityProperty="filterEntity" isPath="optional" pathType="reference" required="true">
+      <caption>Filter- Category </caption>
+      <category>Behavior</category>
+      <description>The attribute to use in the filter on Assocaition. When following a path, any attribute type is valid.</description>
+      <attributeTypes>
+        <attributeType name="String"/>
+        <attributeType name="Integer"/>
+        <attributeType name="Decimal"/>
+        <attributeType name="DateTime"/>
+        <attributeType name="Long"/>
+        <attributeType name="AutoNumber"/>
+        <attributeType name="Boolean"/>
+        <attributeType name="Enum"/>
+      </attributeTypes>
+    </property>
+
+    <property key="tab" type="string" required="false" defaultValue="">
+			<caption>Tab</caption>
+			<category>Appearance</category>
+			<description>This is used to Pick the filters for tab</description>
+		</property>
 	</properties>
 </widget>
