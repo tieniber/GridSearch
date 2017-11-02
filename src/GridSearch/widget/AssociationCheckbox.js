@@ -109,9 +109,15 @@ define([
         wrapperNode.appendChild(tempInputNode);
 
 
-      //  var myFilterXPath = "//" +this.filterEntity+ "[TestSuite.Attributes_Shade/TestSuite.Shade/name='"+inputLabel +"']"
 
-        var myFilterXPath = "//" +this.filterEntity+"[" +this.pathToFilterCategory+" ='"+inputLabel +"']"
+        var  myFilterXPath ;
+
+        if(filterLabels.jsonData.attributes.xpath.value != null){
+            myFilterXPath ="//"+ unescape(filterLabels.jsonData.attributes.xpath.value);
+        }else{
+           myFilterXPath = "//" +this.filterEntity+"[" +this.pathToFilterCategory+" ='"+inputLabel +"']"
+        }
+
       //  var splitFilterPath = this.pathToFilter.split("/");
       //  var filterPart = splitFilterPath[splitFilterPath.length-1]; //this will get you the attribute name like "Name"
       //  var myFilterXPath = "//" + splitFilterPath[splitFilterPath.length-2]; //this will get you an XPath string like "//TestSuite.Category"
@@ -135,19 +141,18 @@ define([
 		_addCheckbox: function(singleEnumMap,wrapperNode,inputLabel) {
 			if(singleEnumMap) {
 
-				var inputLabel, inputValue, tempInputNode, tempLabelNode,tempCountNode, wrapperNode,count,xpath;
+				var inputLabel, inputValue, tempInputNode, tempLabelNode,tempCountNode, wrapperNode,count;
+        var xpath = '';
 
-        inputValue = singleEnumMap.jsonData.attributes.name.value;
-        xpath =  escape(singleEnumMap.jsonData.attributes.xpath.value);
-        count = 0;
-        if(singleEnumMap.jsonData.attributes.count){
-          count =  singleEnumMap.jsonData.attributes.count.value;
-        }
+        inputValue = singleEnumMap.jsonData.attributes.Name.value;
+        if(singleEnumMap.jsonData.attributes.xpath.value != null)
+          xpath =  escape(singleEnumMap.jsonData.attributes.xpath.value);
+
 
 			//	tempInputNode = domConstruct.toDom("<input type='checkbox' value='" + inputLabel +"/"+ count+"/"+ xpath+"'>");
         tempInputNode = domConstruct.toDom("<input type='checkbox' value='" +  xpath +"'>");
 				tempLabelNode = domConstruct.toDom("<label>" + inputValue + "</label>" );
-        tempCountNode = domConstruct.toDom("<label> (" + count + ")</label>");
+
 
         var childDiv;
         childDiv = document.createElement('div');
@@ -157,9 +162,31 @@ define([
         //var countDiv;
         //countDiv = document.createElement('div');
         //countDiv.appendChild(tempCountNode);
-        childDiv.appendChild(tempCountNode);
+      //  childDiv.appendChild(tempCountNode);
 
-        wrapperNode.appendChild(childDiv);
+
+      if(xpath != ''){
+        var countXpath = "//"+this.gridEntity +"["+unescape(xpath) + "]"
+
+        var countArgs = {
+         xpath:countXpath,
+         callback: dojoLang.hitch(this, function(objs) {
+                //var countDiv = document.createElement('div');
+                var tempCountNode = domConstruct.toDom("<label> (" + objs.length + ")</label>");
+              //  countDiv.appendChild(tempCountNode);
+                childDiv.appendChild(tempCountNode);
+                return objs.length ;
+         })
+        };
+        count = mx.data.get(countArgs);
+
+      }
+
+      wrapperNode.appendChild(childDiv);
+
+
+
+
         //wrapperNode.appendChild(countDiv);
 
 
@@ -171,6 +198,7 @@ define([
 				}));
 			}
 		},
+
 		_optionSelected: function() {
 			var grid = this._grid,
                 datasource = grid._datasource
@@ -210,13 +238,13 @@ define([
           xPath = "(";
           checkBoxValue = currentInput.value
           if(checkBoxValue){
-          //  filter1 = checkBoxValue.split("/")[0];
-          //  filter2 = checkBoxValue.split("/")[1];
             filterXpath  = unescape(checkBoxValue);
           }
-        //  var filterAttributes = this.pathToAttribute.split("/")[0] + "/"+this.pathToAttribute.split("/")[1]+"/"+this.pathToFilterCategory.split("/")[0] +"/"+this.filterEntity+"/"+this.pathToFilter;
-					//xPath = xPath + this.pathToAttribute + "='" + filter1 + "' and "+ filterAttributes + "='" + filter2+ "')";
-         xPath =  xPath + filterXpath+ ")";
+          xPath =  xPath + filterXpath+ ")";
+
+
+
+
 
           if(xPath){
             constraint = constraint+xPath +"or";
