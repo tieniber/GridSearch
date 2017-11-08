@@ -68,4 +68,24 @@
   color: #41494c;
   display: inline-block;
   vertical-align: middle;
+ }
+
+.gridSearch.activeFilters > div {
+    background-color:cornflowerblue;
+    color:white;
+    margin-left:10px;
+    padding:5px 10px 5px 10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.gridSearch.activeFilters > div:before {
+    content: "x";
+    color:black;
+    padding-right:10px;
+}
+
+.gridSearch.activeFilters {
+    margin-top:10px;
+    margin-bottom:10px;
 }

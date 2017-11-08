@@ -172,14 +172,25 @@ define([
 		},
 		_getSearchConstraint: function() {
 			var query = this.searchWidget._getQueryAttr();
+			var outvalue;
 			if (query) {
-				return "[" + query + "]";
+				outvalue =  "[" + query + "]";
 			} else {
-				return "";
+				outvalue = "";
 			}
+			if (outvalue) {
+				this._currentFilter = this._searchWidget._getValueAttr();
+			} else {
+				this._currentFilter = null;
+			}
+			this.onSearchChanged();
+			return outvalue;
 		},
         _clear: function() {
-            this.searchWidget.reset();
+			this.searchWidget.reset();
+
+            this._currentFilter = null;
+			this._fireSearch();
 		}
     });
 });

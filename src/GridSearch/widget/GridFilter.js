@@ -116,15 +116,26 @@ define([
 			this._reloadGrid();
 		},
 		_getSearchConstraint: function() {
-			var constraint;
+			var constraint,
+			outvalue = "";
 			if (this.selectNode.value === "") {
-				return "";
+				outvalue =  "";
 			} else {
-				return this.searchOptions[this.selectNode.value].optionXPath.replace(/\r\n/g, ' ');
+				outvalue = this.searchOptions[this.selectNode.value].optionXPath.replace(/\r\n/g, ' ');
 			}
+
+			if (outvalue) {
+				this._currentFilter = this.selectNode.value;
+			} else {
+				this._currentFilter = null;
+			}
+			this.onSearchChanged();
+			return outvalue;
 		},
         _clear: function() {
-            //this.searchNode.value = "";
+            this.searchNode.value = "";
+			this._optionSelected();
+			this._currentFilter = null;
 			//TODO: figure out how clearing should function across widgets
         },
     });
