@@ -18,6 +18,11 @@
 			<category>Behavior</category>
 			<description>The type of objects in the grid.</description>
 		</property>
+		<property key="displayVisualization" type="boolean" defaultValue="true">
+			<caption>Display Visualization</caption>
+			<category>Appearance</category>
+			<description>Whether to display a bar chart of how many results each filter will return.</description>
+		</property>
 		<property key="filterLabel" type="string" required="true" defaultValue="">
 			<caption>Filter Label</caption>
 			<category>Appearance</category>

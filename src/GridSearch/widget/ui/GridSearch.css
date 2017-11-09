@@ -89,3 +89,23 @@
     margin-top:10px;
     margin-bottom:10px;
 }
+
+.gridSearch .counter-bar-wrapper {
+	display:flex;
+	align-items: center;
+}
+
+.gridSearch .counter-bar {
+	background-color:lightblue;
+	height:15px;
+	margin-right: 15px;
+}
+
+.gridSearch .counter-bar.empty-bar {
+	background-color:grey;
+	flex: 0 1 1px !important;
+}
+
+.gridSearch .counter-bar-wrapper label {
+	flex: 1 15px;
+}

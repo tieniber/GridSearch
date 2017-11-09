@@ -113,7 +113,7 @@ define([
         _addCheckbox: function(filterObj, labelAttribute, filterLabelAttribute, xPathAttribute) {
             if (filterObj) {
 
-                var inputLabel, inputValue, inputFilterValue, tempInputNode, tempLabelNode, tempCountNode, wrapperNode, count;
+                var inputLabel, inputValue, inputFilterValue, tempInputNode, tempLabelNode, tempCountNode, wrapperNode, colWrapperNode1, colWrapperNode2, count;
                 var xpath = '', escapedXPath;
 
                 inputValue = filterObj.get(labelAttribute);
@@ -130,12 +130,24 @@ define([
                 tempInputNode = domConstruct.toDom("<input type='checkbox' value='" + escapedXPath + " 'label='" + inputValue + " 'filterlabel='" + inputFilterValue +"'>");
                 tempLabelNode = domConstruct.toDom("<label>" + inputValue + "</label>");
 
+				var containerNode;
+				if (this.displayVisualization) {
+					wrapperNode = domConstruct.toDom("<div class='row'></div>");
+					colWrapperNode1 = domConstruct.toDom("<div class='col-md-3'></div>");
+					colWrapperNode2 = domConstruct.toDom("<div class='col-md-9'></div>");
+					wrapperNode.appendChild(colWrapperNode1);
+					wrapperNode.appendChild(colWrapperNode2);
+	                colWrapperNode1.appendChild(tempInputNode);
+	                colWrapperNode1.appendChild(tempLabelNode);
 
-                var childDiv;
-                childDiv = document.createElement('div');
-                childDiv.appendChild(tempInputNode);
-                childDiv.appendChild(tempLabelNode);
-
+					containerNode = colWrapperNode2;
+				} else {
+					wrapperNode = domConstruct.toDom("<div></div>");
+					wrapperNode.appendChild(tempInputNode);
+					wrapperNode.appendChild(tempLabelNode);
+					containerNode = wrapperNode;
+				}
+				this.filterContainer.appendChild(wrapperNode);
                 //var countDiv;
                 //countDiv = document.createElement('div');
                 //countDiv.appendChild(tempCountNode);
@@ -160,16 +172,29 @@ define([
 						count: true,
                         callback: dojoLang.hitch(this, function(objs, agg) {
                             //var countDiv = document.createElement('div');
-                            var tempCountNode = domConstruct.toDom("<label> (" + agg.count + ")</label>");
+                            //var tempCountNode = domConstruct.toDom("");
                             //  countDiv.appendChild(tempCountNode);
-                            childDiv.appendChild(tempCountNode);
+							//set the max count if applicable
+							var width = agg.count/datasource._setsize * 100;
+							var widthString = width + "%";
+							var counterBarClass = "";
+							if (width === 0) {
+								counterBarClass = "empty-bar"
+							}
+
+							if (this.displayVisualization) {
+								var tempCountBarNode = domConstruct.toDom("<div class='counter-bar-wrapper'><div class='counter-bar " + counterBarClass + "' style='flex: 0 1 "+ widthString +"'></div><label>" + agg.count + "</label></div>");
+								containerNode.appendChild(tempCountBarNode);
+							} else {
+								var tempCountLabelNode = domConstruct.toDom("<label>(" + agg.count + ")</label>")
+								containerNode.appendChild(tempCountLabelNode);
+							}
                         })
                     };
                     count = mx.data.get(countArgs);
 
                 }
 
-                this.filterContainer.appendChild(childDiv);
                 //wrapperNode.appendChild(countDiv);
                 this._enumOptions.push(tempInputNode);
 

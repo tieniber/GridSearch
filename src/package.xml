@@ -7,7 +7,6 @@
 			<widgetFile path="GridSearch/Dropdown.xml" />
 			<widgetFile path="GridSearch/EnumCheckbox.xml" />
             <widgetFile path="GridSearch/GridSearch.xml" />
-            <widgetFile path="GridSearch/GridSearchOffline.xml" />
 			<widgetFile path="GridSearch/ResetButton.xml" />
       		<widgetFile path="GridSearch/AssociationCheckbox.xml" />
 			<widgetFile path="GridSearch/ActiveFilters.xml" />
