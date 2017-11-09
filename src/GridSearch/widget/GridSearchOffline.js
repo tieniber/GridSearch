@@ -28,7 +28,7 @@ define([
 
         //modeler
         gridEntity: null,
-		searchEntity: null,
+        searchEntity: null,
 
         constructor: function() {
             this._handles = [];
@@ -98,33 +98,34 @@ define([
             }, 500);
         },
 
-		_updateConstraints: function() {
-			var grid = this._grid,
-				datasource = grid._datasource;
+        _updateConstraints: function() {
+            var grid = this._grid,
+                datasource = grid._datasource;
 
-			if (!datasource) {
-				datasource = grid._dataSource;
-			}
+            if (!datasource) {
+                datasource = grid._dataSource;
+            }
 
-			if (this.searchNode.value === "") {
-				datasource._constraints = null;
-			} else {
-				datasource._constraints = [{attribute:this.searchAttribute,operator:this.searchMethodParam,value:this.searchNode.value}];
-			}
-			if (grid.reload) {
-				//data grid and template grid
-				grid.reload();
-			} else {
-				//list view
-				grid.update();
-			};
-		},
+            if (this.searchNode.value === "") {
+                datasource._constraints = null;
+            } else {
+                datasource.setConstraints({ attribute: this.searchAttribute, operator: this.searchMethodParam, value: this.searchNode.value });
+                // datasource._constraints = [{ attribute: this.searchAttribute, operator: this.searchMethodParam, value: this.searchNode.value }];
+            }
+            if (grid.reload) {
+                //data grid and template grid
+                grid.reload();
+            } else {
+                //list view
+                grid.update();
+            };
+        },
 
         _clear: function(e) {
             this.searchNode.value = "";
             dojoClass.add(this.buttonNode, "hidden");
 
-			this._updateConstraints();
+            this._updateConstraints();
         }
     });
 });
