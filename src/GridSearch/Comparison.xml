@@ -12,6 +12,11 @@
             <category>Appearance</category>
             <description>The name of the grid on this page, as configured in the modeler.</description>
         </property>
+		<property key="filterLabel" type="string" required="true" defaultValue="">
+			<caption>Filter Label</caption>
+			<category>Appearance</category>
+			<description>A label to be used by the Applied Filters widget when this widget has an active filter.</description>
+		</property>		
 		<property key="showLabel" type="boolean" required="true" defaultValue="true">
             <caption>Show label</caption>
             <category>Appearance</category>

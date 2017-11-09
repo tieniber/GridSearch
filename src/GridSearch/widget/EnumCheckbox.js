@@ -92,7 +92,7 @@ define([
 
 				wrapperNode = document.createElement("div");
 
-				tempInputNode = domConstruct.toDom("<input type='checkbox' value='" + inputValue + "'>");
+				tempInputNode = domConstruct.toDom("<input type='checkbox' value='" + inputValue + "'label='" + inputLabel + "'>");
 				tempLabelNode = domConstruct.toDom("<label>" + inputLabel + "</label>");
 
 				wrapperNode.appendChild(tempInputNode);
@@ -131,29 +131,40 @@ define([
 		},
 		_getSearchConstraint: function() {
 			var constraint = "[";
+			var filterLabel = "";
 
 			for(var i=0; i<this._enumOptions.length; i++) {
 				var currentInput = this._enumOptions[i];
 				if (currentInput.checked) {
 					constraint = constraint + this.pathToAttribute + "='" + currentInput.value + "' or ";
+					filterLabel = filterLabel + currentInput.attributes.label.value +  " or ";
 				}
 			}
 
 			if(constraint.length > 1) {
 				constraint = constraint.substring(0,constraint.length-4);
 				constraint = constraint + "]";
+				filterLabel = filterLabel.substring(0,filterLabel.length-4);
 			} else {
 				constraint = "";
 			}
 
+			if (constraint) {
+				this._currentFilter = filterLabel;
+			} else {
+				this._currentFilter = null;
+			}
+			this.onSearchChanged();
 			return constraint;
-			//[BaseColor='G' or BaseColor='B' or BaseColor='R']
-			//or output is empty if nothing is checked
-
 		},
         _clear: function() {
             //this.searchNode.value = "";
-			//TODO: figure out how clearing should function across widgets
+			for(var i=0; i<this._enumOptions.length; i++) {
+				var currentInput = this._enumOptions[i];
+				currentInput.checked = false;
+			}
+            this._currentFilter = null;
+			this._fireSearch();
         },
     });
 });

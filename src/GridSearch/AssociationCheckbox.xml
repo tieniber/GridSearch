@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="GridSearch.widget.AssociationCheckbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+	<name>&#x2611; Checkbox - Association</name>
+	<description>Filter for a datagrid shown as check boxes</description>
+
+	<icon>
+		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
+	</icon>
+
+	<properties>
+		<property key="targetGridName" type="string" required="true" defaultValue="">
+			<caption>Grid Name</caption>
+			<category>Behavior</category>
+			<description>The name of the grid on this page, as configured in the modeler.</description>
+		</property>
+		<property key="gridEntity" type="entity" required="true">
+			<caption>Grid Entity</caption>
+			<category>Behavior</category>
+			<description>The type of objects in the grid.</description>
+		</property>
+		<property key="filterLabel" type="string" required="true" defaultValue="">
+			<caption>Filter Label</caption>
+			<category>Appearance</category>
+			<description>A label to be used by the Applied Filters widget when this widget has an active filter.</description>
+		</property>
+		<property key="contextEntity" type="entity" required="false">
+			<caption>Context Entity</caption>
+			<category>Appearance</category>
+			<description>(Optional) Used for the Filter Label Attribute. If this widget is in a context, choose the context type here.</description>
+		</property>
+		<property key="filterLabelAttribute" type="attribute" entityProperty="contextEntity" required="false">
+			<caption>Filter Label Attribute</caption>
+			<category>Appearance</category>
+			<description>(Optional) If set, override Filter Label setting (used with Applied Filters widget) with a dynamic value from the context entity.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="filterEntity" type="entity" required="true">
+			<caption>Filter Entity</caption>
+			<category>Behavior</category>
+			<description>The type of object to filter by.</description>
+		</property>
+		<property key="filterType" type="enumeration" defaultValue="reference">
+			<caption>Filter Type</caption>
+			<category>Behavior</category>
+			<description>Choose between filtering over an association (reference or reference set), or via xpath constraints. XPath contraints should be defined as an attribute on a filter entity, and should operate upon the grid entity.</description>
+			<enumerationValues>
+				<enumerationValue key="reference">Reference</enumerationValue>
+				<enumerationValue key="referenceSet">Reference Set</enumerationValue>
+				<enumerationValue key="xpath">XPath</enumerationValue>
+			</enumerationValues>
+		</property>
+		<property key="labelAttribute" type="attribute" entityProperty="filterEntity" required="false">
+			<caption>Label Attribute</caption>
+			<category>Behavior</category>
+			<description>Used for the "xpath" option. This attribute contains the label to display for this filter option.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="filterLabelItemAttribute" type="attribute" entityProperty="filterEntity" required="false">
+			<caption>Active Filter Label Attr</caption>
+			<category>Behavior</category>
+			<description>Used for the "xpath" option. This attribute contains the label to display int the "Active Filters" widget bubble.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="xPathAttribute" type="attribute" entityProperty="filterEntity" required="false">
+			<caption>XPath Attribute</caption>
+			<category>Behavior</category>
+			<description>Used for the "xpath" option. This attribute of the filter entity should contain an XPath constraint to apply on the grid entity.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+			</attributeTypes>
+		</property>
+		<property key="referenceToAttribute" type="attribute" entityProperty="gridEntity" isPath="yes" pathType="reference" required="false">
+			<caption>Reference</caption>
+			<category>Behavior</category>
+			<description>The attribute to use in the filter, over a reference. Optionally use this OR a path over a reference set.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+				<attributeType name="Integer"/>
+				<attributeType name="Decimal"/>
+				<attributeType name="Long"/>
+				<attributeType name="AutoNumber"/>
+				<attributeType name="Boolean"/>
+				<attributeType name="Enum"/>
+			</attributeTypes>
+		</property>
+
+		<property key="referenceSetToAttribute" type="attribute" entityProperty="gridEntity" isPath="optional" pathType="referenceSet" required="false">
+			<caption>Reference Set</caption>
+			<category>Behavior</category>
+			<description>The attribute to use in the filter, over a reference set. Optionally use this OR a path over a reference.</description>
+			<attributeTypes>
+				<attributeType name="String"/>
+				<attributeType name="Integer"/>
+				<attributeType name="Decimal"/>
+				<attributeType name="Long"/>
+				<attributeType name="AutoNumber"/>
+				<attributeType name="Boolean"/>
+				<attributeType name="Enum"/>
+			</attributeTypes>
+		</property>
+
+		<property key="constraint" type="entityConstraint" entityProperty="filterEntity" required="false" defaultValue="">
+			<caption>Contraint</caption>
+			<category>Behavior</category>
+			<description>A filter for the options to be shown.</description>
+		</property>
+	</properties>
+</widget>
