@@ -175,7 +175,8 @@ define([
                             //var tempCountNode = domConstruct.toDom("");
                             //  countDiv.appendChild(tempCountNode);
 							//set the max count if applicable
-							var width = agg.count/datasource._setsize * 100;
+							var setsize = datasource._setsize ? datasource._setsize : datasource._setSize;
+							var width = agg.count/setsize * 100;
 							var widthString = width + "%";
 							var counterBarClass = "";
 							if (width === 0) {
