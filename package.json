@@ -34,5 +34,13 @@
     "icon": "node ./node_modules/gulp/bin/gulp icon",
     "folders": "node ./node_modules/gulp/bin/gulp folders",
     "modeler": "node ./node_modules/gulp/bin/gulp modeler"
+  },
+  "jshintConfig": {
+    "globals": {
+	  "define": true,
+	  "require": true,
+	  "logger": true,
+	  "dijit": true
+	}
   }
 }

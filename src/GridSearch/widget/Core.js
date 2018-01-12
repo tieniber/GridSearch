@@ -44,7 +44,7 @@ define([
 			if(!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form, take the newest active filter entry
 				var propList = Object.getOwnPropertyNames(this._activeFilterWidgets);
 				if (propList) {
-					activeFilterWidget = this._activeFilterWidgets[propList[0]][this.targetGridName];
+					activeFilterWidget = this._activeFilterWidgets[propList[propList.length-1]][this.targetGridName];
 				}
 			}
 			if(activeFilterWidget) {
