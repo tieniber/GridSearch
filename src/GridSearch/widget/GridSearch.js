@@ -39,19 +39,7 @@ define([
 
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
-			this._setupGrid();
-            if (this._grid) {
-                this.connect(this.searchNode, "keyup", "_searchKeyDown");
-				if (!this._grid.gridSearchWidgets) {
-					this._grid.gridSearchWidgets = {};
-				}
-				this._grid.gridSearchWidgets[this.id] = this;
-				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.searchNode.value) {
-					this._grid._searchFilled = true;
-				}
-            }
-
+			this._setupGrid(this._finishGridSetup.bind(this));
             this._contextObj = obj;
             this._updateRendering(callback);
         },
@@ -70,8 +58,20 @@ define([
             logger.debug(this.id + "._updateRendering");
 
            if(callback) {callback()};
-        },
-
+		},
+		_finishGridSetup: function() {
+			if (this._grid) {
+                this.connect(this.searchNode, "keyup", "_searchKeyDown");
+				if (!this._grid.gridSearchWidgets) {
+					this._grid.gridSearchWidgets = {};
+				}
+				this._grid.gridSearchWidgets[this.id] = this;
+				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+				if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+					this._grid._searchFilled = true;
+				}
+            }
+		},
         _getSearchConstraint: function() {
             var value = this.searchNode.value.replace(/''/g, '\'\''),
                 searchParams = [],

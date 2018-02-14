@@ -40,14 +40,8 @@ define([
 
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
-            this._setupGrid();
-            if (this._grid) {
-                //if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-                if (this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.selectNode.value) {
-                    this._grid._searchFilled = true;
-                }
-            }
-
+			this._setupGrid(this._finishGridSetup.bind(this));
+ 
             this._contextObj = obj;
 
 			if (this._contextObj && this.filterLabelAttribute) {
@@ -71,7 +65,14 @@ define([
             //TODO: implement for v1
             //t("selection", this.selectNode.value);
         },
-
+        _finishGridSetup: function() {
+            if (this._grid) {
+                //if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+                if (this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.selectNode.value) {
+                    this._grid._searchFilled = true;
+                }
+            }
+        },
         _populateAssociationFilterOptions: function() {
 			var labelAttribute, xPathAttribute, filterLabelAttribute;
 			if (this.filterType === "xpath") {

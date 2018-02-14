@@ -21,6 +21,7 @@ define([
 		_grid: null,
 		_currentFilter: null,
 		_activeFilterDiv: null,
+		_setupTries: 0,
 
         //modeler
         gridEntity: null,
@@ -65,7 +66,7 @@ define([
 			}
 		},
 
-		_setupGrid: function() {
+		_setupGrid: function(callback) {
 			if(!this._searchWidgets[this.mxform.id]) {
 				this._searchWidgets[this.mxform.id] = {};
 			}
@@ -83,8 +84,14 @@ define([
 						this._grid.gridSearchWidgets = {};
 					}
 					this._grid.gridSearchWidgets[this.id] = this;
+					if(callback) {callback();};
                 } else {
-                    console.log("Found a DOM node but could not find the grid widget.");
+					this._setupTries++;
+					if (this._setupTries > 3) {
+						console.log("Found a DOM node but could not find the grid widget. Tried 3 times");
+					} else { //set a timer to try again shortly
+						setTimeout(this._setupGrid.bind(this, callback), 500);
+					}
                 }
             } else {
                 console.log("Could not find the list node.");
