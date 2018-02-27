@@ -127,6 +127,7 @@ define([
 					datasource.setConstraints("[1=0]");
 				}
 			}
+			this.onSearchChanged();
 
 			this._reloadGrid();
 		},
@@ -155,7 +156,7 @@ define([
 			} else {
 				this._currentFilter = null;
 			}
-			this.onSearchChanged();
+			//this.onSearchChanged();
 			return constraint;
 		},
         _clear: function() {

@@ -182,7 +182,7 @@ define([
             } else {
                 this._currentFilter = null;
             }
-            this.onSearchChanged();
+            //this.onSearchChanged();
             return outvalue;
         },
         _clear: function() {

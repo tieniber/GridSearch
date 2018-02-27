@@ -4,9 +4,10 @@ define([
 	"mxui/mixin/_Stateful",
 	"dijit/_TemplatedMixin",
     "dojo/query",
-    "dojo/_base/lang"
+	"dojo/_base/lang",
+	"dijit/registry",
 
-], function(declare, _WidgetBase, _StatefulMixin, _TemplatedMixin, dojoQuery, dojoLang) {
+], function(declare, _WidgetBase, _StatefulMixin, _TemplatedMixin, dojoQuery, dojoLang, registry) {
     "use strict";
 
     return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin, _TemplatedMixin], {
@@ -42,10 +43,10 @@ define([
 			if(this._activeFilterWidgets[this.mxform.id]) {
 				activeFilterWidget = this._activeFilterWidgets[this.mxform.id][this.targetGridName];
 			}
-			if(!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form, take the newest active filter entry
-				var propList = Object.getOwnPropertyNames(this._activeFilterWidgets);
-				if (propList) {
-					activeFilterWidget = this._activeFilterWidgets[propList[propList.length-1]][this.targetGridName];
+			if(!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form (like a sidebar), find the master form
+				var parentWidget = registry.getEnclosingWidget(this.mxform.domNode);
+				if(parentWidget) {
+					activeFilterWidget = this._activeFilterWidgets[parentWidget.mxform.id][this.targetGridName];
 				}
 			}
 			if(activeFilterWidget) {
@@ -122,6 +123,7 @@ define([
 						datasource.setConstraints("[1=0]");
 					}
 				}
+				self.onSearchChanged();
 				self._reloadGrid();
             }, 250);
         },
