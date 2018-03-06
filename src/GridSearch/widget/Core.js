@@ -112,7 +112,12 @@ define([
             clearTimeout(this._searchTimeout);
             this._searchTimeout = setTimeout(function() {
 				var newConstraint = self._getSearchConstraintAllSearchBoxes();
-				datasource.setConstraints(newConstraint);
+				if(datasource.setConstraints) {
+					datasource.setConstraints(newConstraint);
+				} else {
+					datasource._constraints = newConstraint;
+				}
+				
 
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
 				if(grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
