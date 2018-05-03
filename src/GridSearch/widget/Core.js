@@ -84,8 +84,8 @@ define([
 					
 					//Fix for 7.12+ where _datasource.setConstraints doesn't exist anymore
 					if(this._grid._datasource && !this._grid._datasource.setConstraints) {
-						datasource.setConstraints = function(newConstraint) {
-							datasource._constraints = newConstraint;
+						this._grid._datasource.setConstraints = function(newConstraint) {
+							this._constraints = newConstraint;
 						}
 					}
 
