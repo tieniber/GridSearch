@@ -84,7 +84,9 @@ define([
 					this._pathToAttribute = this.referenceToAttribute
 				} else if (this.filterType === "referenceSet") {
 					this._pathToAttribute = this.referenceSetToAttribute;
-				}
+				} else if (this.filterType === "customPath" ) {
+                    this._pathToAttribute = this.stringPathToAttribute;
+                }
 				var splitPath = this._pathToAttribute.split("/");
 	            labelAttribute = splitPath[splitPath.length - 1];
 				filterLabelAttribute = labelAttribute;
@@ -94,8 +96,9 @@ define([
 			if (this.constraint) {
 				myXPath = myXPath + this.constraint;
 			}
-			if (this.mxcontext) {
-				myXPath = window.mx.parser.replaceXPathTokens(myXPath, this.mxcontext);
+			if (this._contextObj) {
+                myXPath = myXPath.replace(/\[%CurrentObject%\]/g, this._contextObj.getGuid());
+				//myXPath = window.mx.parser.replaceXPathTokens(myXPath, this.mxcontext);
 			}
             var categoryArgs = {
                 xpath: myXPath,

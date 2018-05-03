@@ -81,6 +81,14 @@ define([
             if (gridNode) {
                 this._grid = dijit.registry.byNode(gridNode);
                 if (this._grid) {
+					
+					//Fix for 7.12+ where _datasource.setConstraints doesn't exist anymore
+					if(this._grid._datasource && !this._grid._datasource.setConstraints) {
+						datasource.setConstraints = function(newConstraint) {
+							datasource._constraints = newConstraint;
+						}
+					}
+
 					if (!this._grid.gridSearchWidgets) {
 						this._grid.gridSearchWidgets = {};
 					}
@@ -112,12 +120,7 @@ define([
             clearTimeout(this._searchTimeout);
             this._searchTimeout = setTimeout(function() {
 				var newConstraint = self._getSearchConstraintAllSearchBoxes();
-				if(datasource.setConstraints) {
-					datasource.setConstraints(newConstraint);
-				} else {
-					datasource._constraints = newConstraint;
-				}
-				
+				datasource.setConstraints(newConstraint);				
 
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
 				if(grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {

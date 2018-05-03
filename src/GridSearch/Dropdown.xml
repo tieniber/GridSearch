@@ -61,5 +61,10 @@
 				<attributeType name="Enum"/>
 			</attributeTypes>
 		</property>
+		<property key="stringPathToAttribute" type="string" required="false" defaultValue="">
+            <caption>Attribute (manual)</caption>
+            <category>Behavior</category>
+            <description>A manually written path from the list entity to the attribute you want to use. Only used when Attribute is not selected.</description>
+        </property>
     </properties>
 </widget>

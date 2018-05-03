@@ -53,6 +53,7 @@
 			<enumerationValues>
 				<enumerationValue key="reference">Reference</enumerationValue>
 				<enumerationValue key="referenceSet">Reference Set</enumerationValue>
+				<enumerationValue key="customPath">Custom Path</enumerationValue>
 				<enumerationValue key="xpath">XPath</enumerationValue>
 			</enumerationValues>
 		</property>
@@ -98,7 +99,7 @@
 		<property key="referenceSetToAttribute" type="attribute" entityProperty="gridEntity" isPath="optional" pathType="referenceSet" required="false">
 			<caption>Reference Set</caption>
 			<category>Behavior</category>
-			<description>The attribute to use in the filter, over a reference set. Optionally use this OR a path over a reference.</description>
+			<description>The attribute to use in the filter, over a reference set. Optionally use this OR a path over a reference OR a custom path.</description>
 			<attributeTypes>
 				<attributeType name="String"/>
 				<attributeType name="Integer"/>
@@ -108,6 +109,11 @@
 				<attributeType name="Boolean"/>
 				<attributeType name="Enum"/>
 			</attributeTypes>
+		</property>
+		<property key="stringPathToAttribute" type="string" required="false" defaultValue="">
+			<caption>Custom Path</caption>
+			<category>Behavior</category>
+			<description>A path to an attribute over any kind of reference. Optionally use this instead of Reference or Reference Set if you need to navigate both types of associations.</description>
 		</property>
 
 		<property key="constraint" type="entityConstraint" entityProperty="filterEntity" required="false" defaultValue="">

@@ -43,6 +43,9 @@ define([
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
 
+
+            this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
+            
             //set up parameters for the Mendix SearchInput widget
             var parameters = {
                 searchInputName: this.id.toString(),
