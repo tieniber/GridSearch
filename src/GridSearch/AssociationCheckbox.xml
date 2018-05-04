@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="GridSearch.widget.AssociationCheckbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-	<name>&#x2611; Checkbox - Association</name>
+	<name>Checkbox - Association</name>
 	<description>Filter for a datagrid shown as check boxes</description>
 
 	<icon>

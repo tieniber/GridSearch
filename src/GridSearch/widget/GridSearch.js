@@ -73,37 +73,55 @@ define([
             }
 		},
         _getSearchConstraint: function() {
-            var value = this.searchNode.value.replace(/''/g, '\'\''),
+			var value = this.searchNode.value.replace(/''/g, '\'\''),
+				searchValues = [],
                 searchParams = [],
                 attributes = this.searchAttributes,
 				outvalue = "";
             if (value && value.length >= this.minCharacters) {
 				if(!this.expertQuery) {
 					//basic or advanced search
+					if(this.allowOrConditions) {
+						searchValues = value.split(this.splitString);
+					} else {
+						searchValues.push(value);
+					}
+
 					for (var i = 0, attr; attr = attributes[i]; ++i) {
 						if (attr.searchMethodParam === "startswith") {
-			                attr._searchMethod = "starts-with";
-			            } else {
-			                attr._searchMethod = "contains";
-			            }
+							attr._searchMethod = "starts-with";
+						} else {
+							attr._searchMethod = "contains";
+						}
 
 						if(!attr.customSearchEntity) {
 						//basic search
 							var searchPath = attr.searchAttributeParam.substring(0, attr.searchAttributeParam.lastIndexOf("/"));
 							var searchAttribute = attr.searchAttributeParam.substring(attr.searchAttributeParam.lastIndexOf("/") + 1, attr.searchAttributeParam.length);
 
+							var curQuery = [];
 							if(searchPath) {
-								searchParams.push(searchPath + "[" + attr._searchMethod + "(" + searchAttribute + ",'" + value + "')]");
-							} else {
-								searchParams.push(attr._searchMethod + "(" + searchAttribute + ",'" + value + "')");
+								curQuery.push(searchPath + "[");
 							}
-							outvalue =  "[" + searchParams.join(" or ") + "]";
+							
+							for(var j=0; j < searchValues.length; j++) {
+								if(j > 0) {
+									curQuery.push(" or ");
+								}
+								var curValue = searchValues[j];
+								curQuery.push( attr._searchMethod + "(" + searchAttribute + ",'" + curValue + "')");
+							}
+
+							if(searchPath) {
+								curQuery.push(searchPath + "]");
+							}
+							searchParams.push(curQuery.join(" "));
 						} else {
 						//advanced search
-							searchParams.push(attr.customSearchPath + "[" + attr._searchMethod + "(" + attr.customSearchAttribute + ",'" + value + "')]");
-							outvalue =  "[" + searchParams.join(" or ") + "]";
+							searchParams.push(attr.customSearchPath + "[" + attr._searchMethod + "(" + attr.customSearchAttribute + ",'" + curValue + "')]");
 						}
-	                }
+					}
+					outvalue =  "[" + searchParams.join(" or ") + "]";
 				} else {
 					//expert search
 					outvalue = this.expertQuery.replace(/{\[1\]}/g, value).replace(/\r\n/g, ' ').replace(/''/g, '\'\'');
