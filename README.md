@@ -17,9 +17,6 @@ This Mendix widget package offers six widgets:
  - Static Dropdown Search: Renders a dropdown with hard-coded dropdown options. Write your own XPath constraints and apply them using the dropdown.
  - Reset Button: Resets all of the search boxes connected to a given grid. 
  
- ### Offline Mobile
- - Grid Search (offline) for offline mobile apps. Adds a single-field search box to data grids, template grids, and list views!
-
 ![Not Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Normal.png)
 
 ![Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Searching.png)
@@ -57,7 +54,3 @@ The following data types are supported:
 ## Supported Mendix versions and browsers
 
 Testing was completed in Mendix 5.21.4 and Mendix 6.10.3, and Mendix 7.1.1 on Chrome, IE, Firefox, Edge, and Safari on iOS.
-
-## Limitations
-
-Due to current platform constraints, the offline widget cannot search on multiple fields or over associations.
