@@ -1,14 +1,12 @@
 # Grid Search
 
-Add an interactive search box to all of your grids, even offline!
+Add an interactive search box to all of your grids! Online only!
 
-The online widgets support searching across multiple fields (including associations), similar to the built-in list view search capabilities. They also support all of the same functions as the built-in search fields in data grids and template grids, plus they perform live searching, so you don't have to click a "search" button after entering your criteria.
-
-The offline widget supports searching on a single field.
+The  widgets support searching across multiple fields (including associations), similar to the built-in list view search capabilities. They also support all of the same functions as the built-in search fields in data grids and template grids, plus they perform live searching, so you don't have to click a "search" button after entering your criteria.
 
 ## Description
 
-This Mendix widget package offers six widgets:
+This Mendix widget package offers a number of widgets:
 
 ### Desktop/Online Mobile
  - Multifield Search: Offers multi-column live searching from a single search box to data grids and template grids. Also works on list views, and has more customization options than the built-in list view search field.
