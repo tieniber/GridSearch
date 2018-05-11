@@ -13,6 +13,11 @@
     padding-left: 30px;
 }
 
+.gridSearch textarea {
+    display: inline-block;
+    padding-left: 30px;
+}
+
 .gridSearch button {
     position: absolute;
     top: 7px;
