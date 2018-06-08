@@ -71,5 +71,40 @@
             <category>Behavior</category>
             <description>A manually written path from the list entity to the attribute you want to use. Only used when Attribute is not selected.</description>
         </property>
+		<property key="dropdownEntity" type="entity" required="false">
+		    <caption>Dropdown Entity</caption>
+			<category>Behavior</category>
+	 		<description>The entity to be shown in the dropdown list. Required for sort to work.</description>
+		</property>
+		<property key="sort" type="object" isList="true" required="false">
+            <caption>Sort Attributes</caption>
+            <category>Behavior</category>
+            <description>The attributes that will be used to sort the dropdown list.</description>
+            <properties>
+				<property key="attribute" type="attribute" required="false" entityProperty="../dropdownEntity" isPath="optional" pathType="reference">
+		            <caption>Attribute</caption>
+		            <category>Basic</category>
+		            <description>The attribute to sort on.</description>
+					<attributeTypes>
+						<attributeType name="Enum"/>
+						<attributeType name="String"/>
+						<attributeType name="Integer"/>
+						<attributeType name="Decimal"/>
+						<attributeType name="Long"/>
+						<attributeType name="AutoNumber"/>
+					</attributeTypes>
+				</property>
+				<property key="direction" type="enumeration" defaultValue="asc">
+					<caption>Direction</caption>
+					<category>Basic</category>
+					<description></description>
+					<enumerationValues>
+						<enumerationValue key="asc">Ascending</enumerationValue>
+						<enumerationValue key="desc">Descending</enumerationValue>
+					</enumerationValues>
+				</property>
+				
+            </properties>
+        </property>		
     </properties>
 </widget>

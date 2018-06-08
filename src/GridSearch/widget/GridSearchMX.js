@@ -87,7 +87,7 @@ define([
                 } else {
                     parameters.datasource = {
                         params: {},
-                        type: "xpath"
+                        type: "xpath",
                     };
                 }
 
@@ -95,6 +95,15 @@ define([
                     parameters.widget = {
                         type: "mxui.widget.SelectBox"
                     };
+                }
+
+                if (this.sort.length > 0) {
+                    var sortArray = [];
+                    for (var i=0; i<this.sort.length; i++) {
+                        var curSort = this.sort[i];
+                        sortArray.push([curSort.attribute, curSort.direction]);
+                    }
+                    parameters.datasource.params.sort = sortArray;
                 }
             } else {
                 console.error("GridSearchMX type not set correctly. This is a JavaScript issue.");
