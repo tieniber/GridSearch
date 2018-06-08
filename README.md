@@ -1,14 +1,12 @@
 # Grid Search
 
-Add an interactive search box to all of your grids, even offline!
+Add an interactive search box to all of your grids! Online only!
 
-The online widgets support searching across multiple fields (including associations), similar to the built-in list view search capabilities. They also support all of the same functions as the built-in search fields in data grids and template grids, plus they perform live searching, so you don't have to click a "search" button after entering your criteria.
-
-The offline widget supports searching on a single field.
+The  widgets support searching across multiple fields (including associations), similar to the built-in list view search capabilities. They also support all of the same functions as the built-in search fields in data grids and template grids, plus they perform live searching, so you don't have to click a "search" button after entering your criteria.
 
 ## Description
 
-This Mendix widget package offers six widgets:
+This Mendix widget package offers a number of widgets:
 
 ### Desktop/Online Mobile
  - Multifield Search: Offers multi-column live searching from a single search box to data grids and template grids. Also works on list views, and has more customization options than the built-in list view search field.
@@ -17,9 +15,6 @@ This Mendix widget package offers six widgets:
  - Static Dropdown Search: Renders a dropdown with hard-coded dropdown options. Write your own XPath constraints and apply them using the dropdown.
  - Reset Button: Resets all of the search boxes connected to a given grid. 
  
- ### Offline Mobile
- - Grid Search (offline) for offline mobile apps. Adds a single-field search box to data grids, template grids, and list views!
-
 ![Not Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Normal.png)
 
 ![Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Searching.png)
@@ -57,7 +52,3 @@ The following data types are supported:
 ## Supported Mendix versions and browsers
 
 Testing was completed in Mendix 5.21.4 and Mendix 6.10.3, and Mendix 7.1.1 on Chrome, IE, Firefox, Edge, and Safari on iOS.
-
-## Limitations
-
-Due to current platform constraints, the offline widget cannot search on multiple fields or over associations.
