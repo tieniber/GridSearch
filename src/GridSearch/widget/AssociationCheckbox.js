@@ -28,6 +28,7 @@ define([
         },
 
         postCreate: function() {
+            this.superPostCreate();
             logger.debug(this.id + ".postCreate");
 
 
@@ -47,9 +48,6 @@ define([
 			if (this._contextObj && this.filterLabelAttribute) {
 				this.filterLabel = this._contextObj.get(this.filterLabelAttribute);
 			}
-			//get options
-			this._populateAssociationFilterOptions();
-
 			if (callback) {
                 callback()
             };
@@ -65,14 +63,20 @@ define([
             //TODO: implement for v1
             //t("selection", this.selectNode.value);
         },
-        _finishGridSetup: function() {
-            if (this._grid) {
-                //if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-                if (this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.selectNode.value) {
-                    this._grid._searchFilled = true;
-                }
+		_finishGridSetup: function() {
+			if (this._grids) {
+				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+				for (var i=0; i<this._grids.length; i++) {
+					var curGrid = this._grids[i];
+					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+						curGrid._searchFilled = true;
+					}
+				}				 
             }
-        },
+            //get options
+			this._populateAssociationFilterOptions();
+
+		},
         _populateAssociationFilterOptions: function() {
 			var labelAttribute, xPathAttribute, filterLabelAttribute;
 			if (this.filterType === "xpath") {
@@ -162,7 +166,7 @@ define([
                     var countXpath = "//" + this.gridEntity + "[" + xpath + "]"
 
 					//Add the grid's static constraints if there are any when getting counts.
-					var grid = this._grid,
+					var grid = this._grids[0],
 		                datasource = grid._datasource
 		            if (!datasource) {
 		                datasource = grid._dataSource;
@@ -204,12 +208,12 @@ define([
                 this._enumOptions.push(tempInputNode);
 
                 tempInputNode.addEventListener("click", dojoLang.hitch(this, function(event) {
-                    this._optionSelected();
+                    this._fireSearch();
                 }));
             }
         },
 
-        _optionSelected: function() {
+       /* _optionSelected: function() {
             var grid = this._grid,
                 datasource = grid._datasource
 
@@ -231,14 +235,13 @@ define([
             }
 			this.onSearchChanged();
             this._reloadGrid();
-        },
+        },*/
         _getSearchConstraint: function() {
 
             var constraint = "[";
             var indicator = false;
 			var filterLabel = "";
 
-            //[TestSuite.Category_Shade/TestSuite.Shade/name = '' and TestSuite.Category_Shade/TestSuite.Shade/TestSuite.Attributes_Shade/TestSuite.Attributes/name = '']
 			var checkedOptions = [];
 
             for (var i = 0; i < this._enumOptions.length; i++) {
@@ -302,7 +305,6 @@ define([
 				currentInput.checked = false;
 			}
 			this._currentFilter = null;
-			this._fireSearch();
 		},
     });
 });

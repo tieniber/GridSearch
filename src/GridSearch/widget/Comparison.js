@@ -5,6 +5,6 @@ define([
     "use strict";
 
     return declare("GridSearch.widget.Comparison", [GridSearchMX], {
-		_type: "comparison"
+        _type: "comparison",
     });
 });

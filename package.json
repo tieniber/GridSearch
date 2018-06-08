@@ -25,7 +25,7 @@
   },
   "generatorVersion": "2.0.1",
   "paths": {
-    "testProject7Folder": "./test7/",
+    "testProjectFolder": "./test/",
     "testProjectFileName": "Test.mpr"
   },
   "scripts": {

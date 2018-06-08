@@ -26,7 +26,8 @@ define([
 		},
 
         postCreate: function() {
-            logger.debug(this.id + ".postCreate");
+			logger.debug(this.id + ".postCreate");
+			this.superPostCreate();
 
 			//for version 1, we'll just be getting the options of an enumeration and presenting them here
 			//in a later version, we'll support selecting data over an association as well
@@ -60,18 +61,15 @@ define([
 			//t("selection", this.selectNode.value);
 		},
 		_finishGridSetup: function() {
-			if (this._grid) {
-                //this.connect(this.selectNode, "onchange", "_optionSelected");
-				if (!this._grid.gridSearchWidgets) {
-					this._grid.gridSearchWidgets = {};
-				}
-				this._grid.gridSearchWidgets[this.id] = this;
-
+			if (this._grids) {
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.selectNode.value) {
-					this._grid._searchFilled = true;
-				}
-			}
+				for (var i=0; i<this._grids.length; i++) {
+					var curGrid = this._grids[i];
+					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+						curGrid._searchFilled = true;
+					}
+				}				
+            }
 		},
 		_populateEnumOptions: function() {
 			//TODO: implement for v1
@@ -103,11 +101,11 @@ define([
 				domConstruct.place(wrapperNode, this.filterContainer);
 
 				tempInputNode.addEventListener("click", dojoLang.hitch(this, function(event) {
-					this._optionSelected();
+					this._fireSearch();
 				}));
 			}
 		},
-		_optionSelected: function() {
+		/*_optionSelected: function() {
 			var grid = this._grid,
                 datasource = grid._datasource
 
@@ -130,7 +128,7 @@ define([
 			this.onSearchChanged();
 
 			this._reloadGrid();
-		},
+		},*/
 		_getSearchConstraint: function() {
 			var constraint = "[";
 			var filterLabel = "";

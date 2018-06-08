@@ -42,7 +42,7 @@ define([
 
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
-
+			this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
             

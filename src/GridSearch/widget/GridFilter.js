@@ -21,8 +21,10 @@ define([
 		searchOptions: null,
 		blankOptionLabel: "",
 
+
         postCreate: function() {
-            logger.debug(this.id + ".postCreate");
+			logger.debug(this.id + ".postCreate");
+			this.superPostCreate();
 
 			this.blankOption.text = this.blankOptionLabel;
 
@@ -62,18 +64,16 @@ define([
 			t("selection", this.selectNode.value);
 		},
 		_finishGridSetup: function() {
-			if (this._grid) {
-                this.connect(this.selectNode, "onchange", "_optionSelected");
-				if (!this._grid.gridSearchWidgets) {
-					this._grid.gridSearchWidgets = {};
-				}
-				this._grid.gridSearchWidgets[this.id] = this;
-
+			if (this._grids) {
+                this.connect(this.selectNode, "onchange", "_fireSearch");
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.selectNode.value) {
-					this._grid._searchFilled = true;
-				}
-			}
+				for (var i=0; i<this._grids.length; i++) {
+					var curGrid = this._grids[i];
+					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+						curGrid._searchFilled = true;
+					}
+				}				
+            }
 		},
 		_populateDynamicOptions: function() {
 			var args = {
@@ -93,7 +93,7 @@ define([
 				domConstruct.place(tempOptionNode, this.selectNode);
 			}
 		},
-		_optionSelected: function() {
+		/*_optionSelected: function() {
 			var grid = this._grid,
                 datasource = grid._datasource
 
@@ -115,7 +115,7 @@ define([
 			}
 
 			this._reloadGrid();
-		},
+		},*/
 		_getSearchConstraint: function() {
 			var constraint,
 			outvalue = "";
@@ -126,7 +126,7 @@ define([
 			}
 
 			if (outvalue) {
-				this._currentFilter = this.selectNode.value;
+				this._currentFilter = this.selectNode.selectedOptions[0].innerText;
 			} else {
 				this._currentFilter = null;
 			}
@@ -134,10 +134,8 @@ define([
 			return outvalue;
 		},
         _clear: function() {
-            this.searchNode.value = "";
-			this._optionSelected();
+            this.selectNode.value = "";
 			this._currentFilter = null;
-			//TODO: figure out how clearing should function across widgets
         },
     });
 });

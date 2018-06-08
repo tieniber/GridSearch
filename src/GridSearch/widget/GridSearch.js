@@ -23,10 +23,12 @@ define([
 		minCharacters: 0,
 
         constructor: function() {
-            this._handles = [];
-        },
-
+			this._handles = [];
+		},
+		
+		//superPostCreate : this.postCreate,
         postCreate: function() {
+			this.superPostCreate();
             logger.debug(this.id + ".postCreate");
 
             this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
@@ -60,16 +62,15 @@ define([
            if(callback) {callback()};
 		},
 		_finishGridSetup: function() {
-			if (this._grid) {
+			if (this._grids) {
                 this.connect(this.searchNode, "keyup", "_searchKeyDown");
-				if (!this._grid.gridSearchWidgets) {
-					this._grid.gridSearchWidgets = {};
-				}
-				this._grid.gridSearchWidgets[this.id] = this;
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if(this._grid.config && this._grid.config.gridpresentation && this._grid.config.gridpresentation.waitforsearch && this.searchNode.value) {
-					this._grid._searchFilled = true;
-				}
+				for (var i=0; i<this._grids.length; i++) {
+					var curGrid = this._grids[i];
+					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+						curGrid._searchFilled = true;
+					}
+				}				
             }
 		},
         _getSearchConstraint: function() {
@@ -147,7 +148,7 @@ define([
         },
         _searchKeyDown: function() {
 			this._updateClearButtonRendering();
-			this._fireSearch();
+			this._fireSearchWithDelay();
         },
 		_clearOnEscape: function(e) {
 		 if (e.keyCode == 27) {
@@ -160,15 +161,6 @@ define([
 			this._currentFilter = null;
 			this._fireSearch();
 		},
-        _reloadGrid: function() {
-			if (this._grid.update) {
-        		this._grid.update();
-        	} else if (this._grid.reload) {
-				this._grid.reload();
-        	} else {
-        		console.log("Could not find the grid refresh/reload function");
-        	}
-        }
     });
 });
 

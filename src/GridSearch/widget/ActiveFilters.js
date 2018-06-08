@@ -22,7 +22,8 @@ define([
 		blankOptionLabel: "",
 
         postCreate: function() {
-            logger.debug(this.id + ".postCreate");
+			logger.debug(this.id + ".postCreate");
+			this.superPostCreate();
 
 			//retrieve state (if available)
 			//this.selectNode.value = this.getState("activeFilters", "");
@@ -30,7 +31,7 @@ define([
 			if(!this._activeFilterWidgets[this.mxform.id]) {
 				this._activeFilterWidgets[this.mxform.id] = {};
 			}
-			this._activeFilterWidgets[this.mxform.id][this.targetGridName] = this;
+			this._activeFilterWidgets[this.mxform.id][this.targetGridClass] = this;
         },
 
         update: function(obj, callback) {
