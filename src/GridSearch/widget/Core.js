@@ -119,6 +119,7 @@ define([
 			for (var i=0; i<this._grids.length; i++) {
 				this._fireSearchOneGrid(this._grids[i], constraints);
 			}
+			console.log("Fired search for " + this._grids.length + " grids.")
 		},
 		_fireSearchOneGrid: function(grid, constraints) {
             var datasource = grid._datasource,
@@ -128,7 +129,8 @@ define([
                 datasource = grid._dataSource;
             }
 
-			datasource.setConstraints(constraints);				
+			datasource.setConstraints(constraints);
+			console.log("set constraints for grid: " + grid.id)		
 
 			//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
 			if(grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {

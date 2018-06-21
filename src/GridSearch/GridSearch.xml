@@ -17,6 +17,16 @@
             <category>Appearance</category>
             <description>(Optional) Instead of a grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
         </property>
+		<property key="renderAsTextarea" type="boolean" defaultValue="false">
+			<caption>Render as Textarea</caption>
+			<category>Appearance</category>
+			<description>If true, the widget will render as a text area.</description>
+		</property>
+		<property key="ta_rows" type="integer" defaultValue="5">
+			<caption>Number of rows</caption>
+			<category>Appearance</category>
+			<description>The number of rows to show for a textarea (textarea only).</description>
+		</property>		
 		<property key="filterLabel" type="string" required="true" defaultValue="">
             <caption>Filter Label</caption>
             <category>Appearance</category>
@@ -95,6 +105,11 @@
             <category>Boolean logic</category>
             <description>Whether the query string can be split in multiple parts using boolean OR logic.</description>
         </property>
+		<property key="useRegEx" type="boolean" defaultValue="false">
+			<caption>Interpret as RegEx</caption>
+			<category>Boolean logic</category>
+			<description>If true, the OR condition string will be interpreted as a regular expression (type without bracing forward slashes, i.e. \d{3}, not /\d{3)/).</description>
+		</property>		
 		<property key="splitString" type="string" required="false" defaultValue=" OR ">
 			<caption>OR condition string</caption>
 			<category>Boolean logic</category>

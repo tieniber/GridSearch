@@ -1,12 +1,14 @@
 define([
     "dojo/_base/declare",
 	"GridSearch/widget/Core",
+	"dojo/dom-attr",
+	"dojo/dom-style",
     "dojo/dom-class",
     "dojo/_base/lang",
     "dojo/query",
 
     "dojo/text!GridSearch/widget/template/GridSearch.html"
-], function(declare, Core, dojoClass, dojoLang, dojoQuery, widgetTemplate) {
+], function(declare, Core, dojoAttr, dojoStyle, dojoClass, dojoLang, dojoQuery, widgetTemplate) {
     "use strict";
 
     return declare("GridSearch.widget.GridSearch", [Core], {
@@ -16,7 +18,8 @@ define([
         // Internal variables.
         _handles: null,
         _contextObj: null,
-        //_searchMethod: "starts-with",
+		//_searchMethod: "starts-with",
+		_searchNode: null,
 
         //modeler
         gridEntity: null,
@@ -26,18 +29,27 @@ define([
 			this._handles = [];
 		},
 		
-		//superPostCreate : this.postCreate,
         postCreate: function() {
 			this.superPostCreate();
-            logger.debug(this.id + ".postCreate");
+			logger.debug(this.id + ".postCreate");
+			
+			if (this.renderAsTextarea) {
+				this._searchNode = this.searchNodeMulti;
+				dojoStyle.set(this.searchNodeMulti, "display", "");
+				if (this.ta_rows > 0) {
+				   dojoAttr.set(this.searchNodeMulti, "rows", this.ta_rows);
+				}
+				dojoStyle.set(this.searchNodeSingle, "display", "none");
+			} else {
+				this._searchNode = this.searchNodeSingle;
+			}
 
-            this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
-			this.connect(this.searchNode, "keyup", "_clearOnEscape");
-
+			this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
+			this.connect(this._searchNode, "keyup", "_clearOnEscape");
 			//retrieve state (if available)
-			this.searchNode.value = this.getState("searchValue", "");
+			this._searchNode.value = this.getState("searchValue", "");
 			this._updateClearButtonRendering();
-        },
+		 },
 
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
@@ -54,7 +66,7 @@ define([
             logger.debug(this.id + ".uninitialize");
         },
 		storeState: function(t) {
-			t("searchValue", this.searchNode.value);
+			t("searchValue", this._searchNode.value);
 		},
         _updateRendering: function(callback) {
             logger.debug(this.id + "._updateRendering");
@@ -63,18 +75,18 @@ define([
 		},
 		_finishGridSetup: function() {
 			if (this._grids) {
-                this.connect(this.searchNode, "keyup", "_searchKeyDown");
+                this.connect(this._searchNode, "keyup", "_searchKeyDown");
 				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
 				for (var i=0; i<this._grids.length; i++) {
 					var curGrid = this._grids[i];
-					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this.searchNode.value) {
+					if(curGrid.config && curGrid.config.gridpresentation && curGrid.config.gridpresentation.waitforsearch && this._searchNode.value) {
 						curGrid._searchFilled = true;
 					}
 				}				
             }
 		},
         _getSearchConstraint: function() {
-			var value = this.searchNode.value.replace(/''/g, '\'\''),
+			var value = this._searchNode.value.replace(/''/g, '\'\''),
 				searchValues = [],
                 searchParams = [],
                 attributes = this.searchAttributes,
@@ -82,8 +94,14 @@ define([
             if (value && value.length >= this.minCharacters) {
 				if(!this.expertQuery) {
 					//basic or advanced search
-					if(this.allowOrConditions) {
-						searchValues = value.split(this.splitString);
+					if (this.allowOrConditions) {
+						if (this.useRegEx) {
+						   searchValues = value
+							  .trim()
+							  .split(new RegExp(this.splitString));
+						} else {
+						   searchValues = value.trim().split(this.splitString);
+						}
 					} else {
 						searchValues.push(value);
 					}
@@ -140,7 +158,7 @@ define([
 			return outvalue;
         },
         _updateClearButtonRendering: function() {
-        	if (this.searchNode.value === "") {
+        	if (this._searchNode.value === "") {
                 dojoClass.add(this.buttonNode, "hidden");
             } else {
                 dojoClass.remove(this.buttonNode, "hidden");
@@ -156,7 +174,7 @@ define([
 		 }
 		},
         _clear: function() {
-            this.searchNode.value = "";
+            this._searchNode.value = "";
             dojoClass.add(this.buttonNode, "hidden");
 			this._currentFilter = null;
 			this._fireSearch();
