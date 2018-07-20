@@ -186,7 +186,7 @@ define([
 			}
 			if(!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form (like a sidebar), find the master form
 				var parentWidget = registry.getEnclosingWidget(this.mxform.domNode);
-				if(parentWidget) {
+				if(parentWidget && this._activeFilterWidgets[parentWidget.mxform.id]) {
 					activeFilterWidget = this._activeFilterWidgets[parentWidget.mxform.id][this.targetGridClass];
 				}
 			}
