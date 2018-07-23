@@ -91,6 +91,10 @@ define([
                     };
                 }
 
+                if(parameters.datasource.type === "xpath" && this.constraint) {
+                    parameters.datasource.params.constraint = this.constraint;
+                }
+
                 if (this.multiSelect) {
                     parameters.widget = {
                         type: "mxui.widget.SelectBox"

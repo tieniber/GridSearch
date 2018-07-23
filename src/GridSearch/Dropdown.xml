@@ -76,6 +76,11 @@
 			<category>Behavior</category>
 	 		<description>The entity to be shown in the dropdown list. Required for sort to work.</description>
 		</property>
+		<property key="constraint" type="entityConstraint" entityProperty="dropdownEntity" required="false">
+		    <caption>XPath Constraint</caption>
+			<category>Behavior</category>
+			<description>When using a path to an entity for this dropdown, you can optionally filter the list of selectable items using xpath here.</description>
+		</property>
 		<property key="sort" type="object" isList="true" required="false">
             <caption>Sort Attributes</caption>
             <category>Behavior</category>
