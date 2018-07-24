@@ -133,8 +133,12 @@ define([
             if (!this.showLabel) {
                 dojoQuery(".mx-grid-search-label", this.searchContainer).forEach(domConstruct.destroy);
             }
+            //set the empty label for dropdowns
+            if (this.emptyCaption && this.searchWidget._input) {
+                aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaption.bind(this));
+            }
 
-            this.searchWidget.startup();
+            this.searchWidget.startup(); 
             this.searchWidget.reinit(); // CC hack fix for Mx 7
         },
 
@@ -200,6 +204,12 @@ define([
             }
             //this.onSearchChanged();
             return outvalue;
+        },
+        _updateEmptyCaption: function() {
+            if (this.searchWidget._input && this.searchWidget._input.options[0]) {
+                this.searchWidget._input.options[0].label = this.emptyCaption;
+                this.searchWidget._input.selectedIndex = 0;
+            }
         },
         _clear: function() {
             this.searchWidget.reset();

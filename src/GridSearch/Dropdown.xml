@@ -32,6 +32,11 @@
             <category>Appearance</category>
             <description>The label that will appear next to the search input.</description>
         </property>
+		<property key="emptyCaption" type="string" required="true" defaultValue="(none)">
+            <caption>Empty Caption</caption>
+            <category>Appearance</category>
+            <description>The caption to be used on the empty/all dropdown option.</description>
+        </property>		
 		<property key="gridEntity" type="entity" required="true">
 		    <caption>Grid Entity</caption>
 			<category>Behavior</category>
