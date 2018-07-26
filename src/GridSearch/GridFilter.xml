@@ -48,6 +48,11 @@
 		            <category>Behavior</category>
 		            <description>An XPath contraint to apply when this option is selected. (i.e. [Color='Blue'])</description>
 		        </property>
+				<property key="isDefault" type="boolean" defaultValue="false">
+				  <caption>Default?</caption>
+				  <category>Behavior</category>
+				  <description>should this filter be applied by default?</description>
+				</property>
             </properties>
         </property>
 		<property key="useDynamicOptions" type="boolean" required="true" defaultValue="false">
