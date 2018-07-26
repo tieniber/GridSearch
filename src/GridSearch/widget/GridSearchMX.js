@@ -8,7 +8,7 @@ define([
     "dojo/dom-construct",
     //"mxui/widget/SearchInput",
     "dojo/text!GridSearch/widget/template/GridSearchMX.html"
-], function(declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, /*searchInput,*/ widgetTemplate) {
+], function (declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, /*searchInput,*/ widgetTemplate) {
     "use strict";
 
     return declare("GridSearch.widget.GridSearchMX", [Core], {
@@ -36,16 +36,16 @@ define([
             startswith: "startswith"
         },
 
-        constructor: function() {
+        constructor: function () {
             this._handles = [];
         },
 
-        postCreate: function() {
+        postCreate: function () {
             logger.debug(this.id + ".postCreate");
-			this.superPostCreate();
+            this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
-            
+
             //set up parameters for the Mendix SearchInput widget
             var parameters = {
                 searchInputName: this.id.toString(),
@@ -91,7 +91,7 @@ define([
                     };
                 }
 
-                if(parameters.datasource.type === "xpath" && this.constraint) {
+                if (parameters.datasource.type === "xpath" && this.constraint) {
                     parameters.datasource.params.constraint = this.constraint;
                 }
 
@@ -103,7 +103,7 @@ define([
 
                 if (this.sort.length > 0) {
                     var sortArray = [];
-                    for (var i=0; i<this.sort.length; i++) {
+                    for (var i = 0; i < this.sort.length; i++) {
                         var curSort = this.sort[i];
                         sortArray.push([curSort.attribute, curSort.direction]);
                     }
@@ -138,31 +138,34 @@ define([
                 aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaption.bind(this));
             }
 
-            this.searchWidget.startup(); 
-            this.searchWidget.reinit(); // CC hack fix for Mx 7
+            this.searchWidget.startup();
+            this.searchWidget.reinit(function () {
+                // this.searchWidget._input ==> This is the select node, with options, but none are mendix widgets
+
+            }.bind(this)); // CC hack fix for Mx 7
         },
 
-        update: function(obj, callback) {
+        update: function (obj, callback) {
 
             this._setupGrid();
             this._contextObj = obj;
 
             if (callback) { callback() };
         },
-        resize: function(box) {
+        resize: function (box) {
             logger.debug(this.id + ".resize");
         },
-        uninitialize: function() {
+        uninitialize: function () {
             logger.debug(this.id + ".uninitialize");
         },
-        storeState: function(t) {
+        storeState: function (t) {
             var currentVal = this.searchWidget.get("value");
             if (currentVal && this._attributeType === "date") {
                 currentVal = currentVal.getTime();
             }
             t("searchValue", currentVal);
         },
-        _getAttributeDetails: function() {
+        _getAttributeDetails: function () {
             var pathSections = this.pathToAttribute.split("/");
             var searchEntity, searchAttribute;
             if (pathSections.length > 1) {
@@ -189,7 +192,7 @@ define([
             this._searchAttribute = searchAttribute;
             this._attributeType = attributeType;
         },
-        _getSearchConstraint: function() {
+        _getSearchConstraint: function () {
             var query = this.searchWidget._getQueryAttr();
             var outvalue;
             if (query) {
@@ -205,13 +208,13 @@ define([
             //this.onSearchChanged();
             return outvalue;
         },
-        _updateEmptyCaption: function() {
+        _updateEmptyCaption: function () {
             if (this.searchWidget._input && this.searchWidget._input.options[0]) {
                 this.searchWidget._input.options[0].label = this.emptyCaption;
                 this.searchWidget._input.selectedIndex = 0;
             }
         },
-        _clear: function() {
+        _clear: function () {
             this.searchWidget.reset();
 
             this._currentFilter = null;
