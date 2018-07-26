@@ -81,7 +81,7 @@ define([
 				}
 				if (this.searchOptions.find(function (opt) { return opt.isDefault })) {
 					// there's a default search, so fire it.
-					this._fireSearch();
+					this._fireSearchWithDelay();
 				}
 			}
 		},
