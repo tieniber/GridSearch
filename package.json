@@ -37,10 +37,10 @@
   },
   "jshintConfig": {
     "globals": {
-	  "define": true,
-	  "require": true,
-	  "logger": true,
-	  "dijit": true
-	}
+      "define": true,
+      "require": true,
+      "logger": true,
+      "dijit": true
+    }
   }
 }
