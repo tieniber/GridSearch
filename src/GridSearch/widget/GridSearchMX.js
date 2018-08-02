@@ -91,8 +91,10 @@ define([
                     };
                 }
 
-                if (parameters.datasource && parameters.datasource.type === "xpath" && this.constraint) {
-                    parameters.datasource.params.constraint = this.constraint;
+                if (parameters.datasource && parameters.datasource.type === "xpath") {
+                    if (this.constraint) {
+                        parameters.datasource.params.constraint = this.constraint;
+                    }
                 }
 
                 if (this.multiSelect) {
@@ -218,7 +220,7 @@ define([
             this.searchWidget.reset();
 
             this._currentFilter = null;
-            this._fireSearch();
+            this._fireSearchWithDelay();
         }
     });
 });
