@@ -252,6 +252,11 @@ define([
 						listenerWidget._clear();
 					}
 				} else {
+					listenerWidget.searchWidget._datasource.setConstraints();
+					// reload
+					listenerWidget.searchWidget._datasource.reload();
+					// reinit
+					listenerWidget.searchWidget.reinit();
 					listenerWidget._clear();
 				}
 			}
