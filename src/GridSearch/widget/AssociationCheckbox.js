@@ -177,7 +177,10 @@ define([
 
                     var countArgs = {
                         xpath: countXpath,
-						count: true,
+                        count: true,
+                        filter: {
+                            amount: 1
+                        },
                         callback: dojoLang.hitch(this, function(objs, agg) {
                             //var countDiv = document.createElement('div');
                             //var tempCountNode = domConstruct.toDom("");

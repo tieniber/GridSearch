@@ -41,10 +41,16 @@ define([
         },
 
         postCreate: function () {
-            logger.debug(this.id + ".postCreate");
+            logger.debug(this.id + ".postCreate"); 
             this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
+        },
+
+        update: function (obj, callback) {
+
+            this._setupGrid();
+            this._contextObj = obj;
 
             //set up parameters for the Mendix SearchInput widget
             var parameters = {
@@ -93,6 +99,9 @@ define([
 
                 if (parameters.datasource && parameters.datasource.type === "xpath") {
                     if (this.constraint) {
+                        if (this._contextObj) {
+                            this.constraint.replace("[%CurrentObject%]", this._contextObj.getGuid().toString());
+                        }
                         parameters.datasource.params.constraint = this.constraint;
                     }
                 }
@@ -143,14 +152,7 @@ define([
             this.searchWidget.startup();
             this.searchWidget.reinit(function () {
                 // this.searchWidget._input ==> This is the select node, with options, but none are mendix widgets
-
             }.bind(this)); // CC hack fix for Mx 7
-        },
-
-        update: function (obj, callback) {
-
-            this._setupGrid();
-            this._contextObj = obj;
 
             if (callback) { callback() };
         },
