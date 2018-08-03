@@ -1,91 +1,91 @@
 define([
-    "dojo/_base/declare",
-    "mxui/widget/_WidgetBase",
+	"dojo/_base/declare",
+	"mxui/widget/_WidgetBase",
 	"mxui/mixin/_Stateful",
 	"dijit/_TemplatedMixin",
-    "dojo/query",
+	"dojo/query",
 	"dojo/_base/lang",
 	"dijit/registry",
 	"dojo/promise/all",
 	"dojo/Deferred"
 
-], function(declare, _WidgetBase, _StatefulMixin, _TemplatedMixin, dojoQuery, dojoLang, registry, all, Deferred) {
-    "use strict";
+], function (declare, _WidgetBase, _StatefulMixin, _TemplatedMixin, dojoQuery, dojoLang, registry, all, Deferred) {
+	"use strict";
 
-    return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin, _TemplatedMixin], {
+	return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin, _TemplatedMixin], {
 
-        widgetBase: null,
-        //searchMethodParam: "",
+		widgetBase: null,
+		//searchMethodParam: "",
 
-        // Internal variables.
+		// Internal variables.
 		_searchWidgets: {},
 		_activeFilterWidgets: {},
-        _contextObj: null,
+		_contextObj: null,
 		_grids: null,
 		_currentFilter: null,
 		_activeFilterDiv: null,
 
-        //modeler
-        gridEntity: null,
+		//modeler
+		gridEntity: null,
 		targetGridName: null,
 		targetGridClass: null,
 		filterLabel: null,
 
-		constructor: function() {
-			this._grids = [];	
+		constructor: function () {
+			this._grids = [];
 		},
-		postCreate: function() {
-			if(this.targetGridName !== '') {
+		postCreate: function () {
+			if (this.targetGridName !== '') {
 				this.targetGridClass = "mx-name-" + this.targetGridName;
 			}
 		},
-		superPostCreate: function() {
-			if(this.targetGridName !== '') {
+		superPostCreate: function () {
+			if (this.targetGridName !== '') {
 				this.targetGridClass = "mx-name-" + this.targetGridName;
 			}
 		},
 
-        _getSearchConstraint: function() {
+		_getSearchConstraint: function () {
 			console.error("Widget not implemented properly. A searching widget should implement a _getSearchContraint function.")
-        },
-		_clear: function() {
+		},
+		_clear: function () {
 			//this function should clear the search widget
 			console.error("Widget not implemented properly. A searching widget should implement a _clear function.")
 		},
-		_setupGrid: function(callback) {
+		_setupGrid: function (callback) {
 			setTimeout(this._setupGridNoDelay.bind(this, callback), 500);
 		},
 
-		_setupGridNoDelay: function(callback) {
-			if(!this._searchWidgets[this.targetGridClass]) {
+		_setupGridNoDelay: function (callback) {
+			if (!this._searchWidgets[this.targetGridClass]) {
 				this._searchWidgets[this.targetGridClass] = [];
 			}
 			this._searchWidgets[this.targetGridClass].push(this);
 			var nodeList = dojoQuery("." + this.targetGridClass);
 
-            var gridNodes = nodeList; // ? nodeList[nodeList.length-1]: null;
+			var gridNodes = nodeList; // ? nodeList[nodeList.length-1]: null;
 			var promises = [];
-			for (var i=0; i<gridNodes.length; i++) {
+			for (var i = 0; i < gridNodes.length; i++) {
 				promises.push(this._connectOneGrid(gridNodes[i]));
-			} 
+			}
 			var self = this;
-			all(promises).then(function(results) {
+			all(promises).then(function (results) {
 				self._grids = results;
-				if(callback) callback();
+				if (callback) callback();
 			});
 			if (!gridNodes) {
-                console.log("Could not find the list node(s).");
-            }
+				console.log("Could not find the list node(s).");
+			}
 		},
-		_connectOneGrid: function(gridNode, tries) {
+		_connectOneGrid: function (gridNode, tries) {
 			var deferred = new Deferred();
 
 			var grid = dijit.registry.byNode(gridNode);
 			if (grid) {
 				//this._grids.push(grid);
 				//Fix for 7.12+ where _datasource.setConstraints doesn't exist anymore
-				if(grid._datasource && !grid._datasource.setConstraints) {
-					grid._datasource.setConstraints = function(newConstraint) {
+				if (grid._datasource && !grid._datasource.setConstraints) {
+					grid._datasource.setConstraints = function (newConstraint) {
 						this._constraints = newConstraint;
 					}
 				}
@@ -107,34 +107,37 @@ define([
 			return deferred.promise;
 
 		},
-		_fireSearchWithDelay: function() {
+		_fireSearchWithDelay: function () {
 			clearTimeout(this._searchTimeout);
 			var self = this;
-			this._searchTimeout = setTimeout(function() {
+			this._searchTimeout = setTimeout(function () {
 				self._fireSearch();
 			}, 250);
 		},
-		_fireSearch: function() {
+		_fireSearch: function () {
 			var constraints = this._getSearchConstraintAllSearchBoxes();
-			for (var i=0; i<this._grids.length; i++) {
+			for (var i = 0; i < this._grids.length; i++) {
 				this._fireSearchOneGrid(this._grids[i], constraints);
 			}
 			console.log("Fired search for " + this._grids.length + " grids.")
+			if (this.cascadeKey) {
+				this._cascadeToListeningWidgets();
+			}
 		},
-		_fireSearchOneGrid: function(grid, constraints) {
-            var datasource = grid._datasource,
-                self = this;
+		_fireSearchOneGrid: function (grid, constraints) {
+			var datasource = grid._datasource,
+				self = this;
 
-            if (!datasource) {
-                datasource = grid._dataSource;
-            }
+			if (!datasource) {
+				datasource = grid._dataSource;
+			}
 
 			datasource.setConstraints(constraints);
-			console.log("set constraints for grid: " + grid.id)		
+			console.log("set constraints for grid: " + grid.id)
 
 			//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-			if(grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
-				if(constraints) {
+			if (grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
+				if (constraints) {
 					grid._searchFilled = true;
 				} else {
 					//grid._searchFilled = false; //grid doesn't refresh or empty if you do this
@@ -145,55 +148,55 @@ define([
 			self._reloadGrid();
 
 		},
-		_getSearchConstraintAllSearchBoxes: function() {
+		_getSearchConstraintAllSearchBoxes: function () {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
 			var fullConstraint = "";
-			for (var i=0; i<searchWidgets.length; i++) {
+			for (var i = 0; i < searchWidgets.length; i++) {
 				var searchWidget = searchWidgets[i];
-			  fullConstraint = fullConstraint + searchWidget._getSearchConstraint();
+				fullConstraint = fullConstraint + searchWidget._getSearchConstraint();
 			}
 			return fullConstraint;
 		},
-		_clearAllSearchBoxes: function(e) {
+		_clearAllSearchBoxes: function (e) {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
 
-			for (var i=0; i<searchWidgets.length; i++) {
-			  searchWidgets[i]._clear();
+			for (var i = 0; i < searchWidgets.length; i++) {
+				searchWidgets[i]._clear();
 			}
 
 			this._fireSearch();
 		},
-        _reloadGrid: function() {
-			for (var i=0; i<this._grids.length; i++) {
+		_reloadGrid: function () {
+			for (var i = 0; i < this._grids.length; i++) {
 				this._reloadOneGrid(this._grids[i]);
 			}
 		},
-		_reloadOneGrid: function(grid) {
-        	if (grid.reload) {
-        		grid.reload();
-        	} else if (grid.update) {
-        		grid.update();
-        	} else {
-        		console.log("Could not find the grid refresh/reload function");
-        	}
+		_reloadOneGrid: function (grid) {
+			if (grid.reload) {
+				grid.reload();
+			} else if (grid.update) {
+				grid.update();
+			} else {
+				console.log("Could not find the grid refresh/reload function");
+			}
 		},
-		onSearchChanged: function() {
+		onSearchChanged: function () {
 			//this function exists so it can be fired when the search input changes. The Active Filters widget relies on it to update its rendering.
 
 			var activeFilterWidget;
-			if(this._activeFilterWidgets[this.mxform.id]) {
+			if (this._activeFilterWidgets[this.mxform.id]) {
 				activeFilterWidget = this._activeFilterWidgets[this.mxform.id][this.targetGridClass];
 			}
-			if(!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form (like a sidebar), find the master form
+			if (!activeFilterWidget && this.mxform.place === "custom") { //we have loaded these filters in a sub-form (like a sidebar), find the master form
 				var parentWidget = registry.getEnclosingWidget(this.mxform.domNode);
-				if(parentWidget && this._activeFilterWidgets[parentWidget.mxform.id]) {
+				if (parentWidget && this._activeFilterWidgets[parentWidget.mxform.id]) {
 					activeFilterWidget = this._activeFilterWidgets[parentWidget.mxform.id][this.targetGridClass];
 				}
 			}
-			if(activeFilterWidget) {
-				if(!this._activeFilterDiv) {
+			if (activeFilterWidget) {
+				if (!this._activeFilterDiv) {
 					this._activeFilterDiv = document.createElement("div");
-					this._activeFilterDiv.addEventListener("click", dojoLang.hitch(this, function() {
+					this._activeFilterDiv.addEventListener("click", dojoLang.hitch(this, function () {
 						this._clear();
 						this.onSearchChanged();
 						this._fireSearch();
@@ -201,18 +204,62 @@ define([
 					activeFilterWidget.activeFilters.appendChild(this._activeFilterDiv);
 				}
 				this._activeFilterDiv.innerHTML = this.filterLabel + ": " + this._currentFilter;
-				if(this._currentFilter) {
+				if (this._currentFilter) {
 					this._activeFilterDiv.style.display = "inline-block";
 				} else {
 					this._activeFilterDiv.style.display = "none";
 				}
 			}
 		},
-		uninitialize: function() {
+		uninitialize: function () {
 			var index = this._searchWidgets[this.targetGridClass].indexOf(this);
 			if (index > -1) {
 				this._searchWidgets[this.targetGridClass].splice(index, 1);
 			}
+		},
+		/**
+		 * Push the change to any listening widgets
+		 * @author Conner Charlebois (Mendix)
+		 * @since Aug 1, 2018
+		 */
+		_cascadeToListeningWidgets: function () {
+			// refresh the listening dropdown
+			var listenerWidget = this._searchWidgets[this.targetGridClass].find(function (w) {
+				return w.listenPath && w.listenKey === this.cascadeKey
+			}.bind(this));
+			// if there's a listening widget
+			if (listenerWidget) {
+				/**
+				 * upper filter
+				 * lower option filter
+				 * lower filter
+				 * the upper filter affects the lower option filter
+				 * if the filter on the listenerWidget dropdown needs to change, clear it
+				 * if the filter on the listenerWidget doesn't need to change, do nothing
+				 */
+				var upperFilter = this._getSearchConstraint().split(listenerWidget.listenPath).slice(-1)[0]; // last item in array
+				if (upperFilter) {
+					var lowerOptionFilter = listenerWidget.searchWidget._datasource.getConstraints();
+					var newLowerOptionFilter = "[(" + listenerWidget.listenPath + upperFilter;
+
+					if (lowerOptionFilter != newLowerOptionFilter) {
+						// set new constraint
+						listenerWidget.searchWidget._datasource.setConstraints(newLowerOptionFilter);
+						// reload
+						listenerWidget.searchWidget._datasource.reload();
+						// reinit
+						listenerWidget.searchWidget.reinit();
+						listenerWidget._clear();
+					}
+				} else {
+					listenerWidget.searchWidget._datasource.setConstraints();
+					// reload
+					listenerWidget.searchWidget._datasource.reload();
+					// reinit
+					listenerWidget.searchWidget.reinit();
+					listenerWidget._clear();
+				}
+			}
 		}
-    });
+	});
 });
