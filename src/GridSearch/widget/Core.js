@@ -2,17 +2,17 @@ define([
 	"dojo/_base/declare",
 	"mxui/widget/_WidgetBase",
 	"mxui/mixin/_Stateful",
-	"dijit/_TemplatedMixin",
+	// "dijit/_TemplatedMixin",
 	"dojo/query",
 	"dojo/_base/lang",
 	"dijit/registry",
 	"dojo/promise/all",
 	"dojo/Deferred"
 
-], function (declare, _WidgetBase, _StatefulMixin, _TemplatedMixin, dojoQuery, dojoLang, registry, all, Deferred) {
+], function (declare, _WidgetBase, _StatefulMixin, dojoQuery, dojoLang, registry, all, Deferred) {
 	"use strict";
 
-	return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin, _TemplatedMixin], {
+	return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin], {
 
 		widgetBase: null,
 		//searchMethodParam: "",

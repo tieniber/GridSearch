@@ -4,12 +4,12 @@ define([
 	"dojo/_base/lang",
 	"dojo/query",
 	"dojo/dom-construct",
-
+	"dijit/_TemplatedMixin",
 	"dojo/text!GridSearch/widget/template/GridFilter.html"
-], function (declare, Core, dojoLang, dojoQuery, domConstruct, widgetTemplate) {
+], function (declare, Core, dojoLang, dojoQuery, domConstruct, _TemplatedMixin, widgetTemplate) {
 	"use strict";
 
-	return declare("GridSearch.widget.GridFilter", [Core], {
+	return declare("GridSearch.widget.GridFilter", [Core, _TemplatedMixin], {
 
 		templateString: widgetTemplate,
 
