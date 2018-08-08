@@ -7,11 +7,12 @@ define([
     "dojo/aspect",
     "dojo/dom-construct",
     //"mxui/widget/SearchInput",
+    "dijit/_TemplatedMixin",
     "dojo/text!GridSearch/widget/template/GridSearchMX.html"
-], function (declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, /*searchInput,*/ widgetTemplate) {
+], function (declare, Core, dojoClass, dojoLang, dojoQuery, aspect, domConstruct, /*searchInput,*/ _TemplatedMixin, widgetTemplate) {
     "use strict";
 
-    return declare("GridSearch.widget.GridSearchMX", [Core], {
+    return declare("GridSearch.widget.GridSearchMX", [Core, _TemplatedMixin], {
 
         templateString: widgetTemplate,
 
