@@ -82,16 +82,34 @@ define([
          */
         update: function (obj, callback) {
             // call _setupgrid with a callback here
-            this._setupGrid(this._finishGridSetup.bind(this));
+            if (obj) {
+                this._contextObj = obj;
+                this._setupGrid(this._finishGridSetup.bind(this));
+            }
 
-            this._contextObj = obj;
+
             if (callback) {
                 callback()
             };
         },
 
+        /**
+         * @override
+         * This method is from the stateful plugin, so we need to implement it here.
+         * this doesn't actually do anything useful, as far as I can tell. Unsure how to actually retrieve 
+         *   this value from the store.
+         */
+        storeState: function (t) {
+            t("searchValue", this._contextObj.get(this.xpathAttribute));
+        },
+
         _finishGridSetup: function () {
             this._resetSubscriptions();
+            // this doesn't seem to work :()
+            // if (this.getState("searchValue", "")) {
+            //     this._contextObj.set(this.xpathAttribute, this.getState("searchValue", ""));
+            //     this._fireSearch();
+            // }
         },
 
         _resetSubscriptions: function () {
