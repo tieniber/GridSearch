@@ -21,10 +21,8 @@ This Mendix widget package offers a number of widgets:
  - Utility Widgets:
    - Reset Button: Resets all of the search boxes connected to a given grid. 
    - Active Filters: shows a list of bubbles consisting of any searches currently applied to the grid. Clicking any of the bubbles remove that search criteria.
- 
-![Not Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Normal.png)
 
-![Searching](https://github.com/tieniber/GridSearch/blob/master/assets/DG_Searching.png)
+![Searching](https://github.com/tieniber/GridSearch/blob/master/assets/ScreenShot1.png)
 
 ## Contributing
 For more information on contributing to this repository visit [Contributing to a GitHub repository](https://docs.mendix.com/howto/Contributing+to+a+GitHub+repository)
@@ -178,12 +176,15 @@ Put this widget in a non-persistable context entity (a "search helper" entity) t
 There is an example of how to implement this widget in the test project in this respository.
 
 The model:
+
 ![Model](https://github.com/tieniber/GridSearch/blob/master/assets/AnySearchConfig.png)
 
 Using a dropdown box to select different date ranges:
+
 ![Basic Dropdown Scenario](https://github.com/tieniber/GridSearch/blob/master/assets/AnySearch1.png)
 
-Using the "custom" option which makes a "Start" and "End" date input visible
+Using the "custom" option which makes a "Start" and "End" date input visible:
+
 ![Custom Dropdown Scenario](https://github.com/tieniber/GridSearch/blob/master/assets/AnySearch2.png)
 
 * Appearance
