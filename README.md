@@ -10,7 +10,6 @@ Finally, this package includes a widget called ActiveFilters that shows all of y
 ## Description
 This Mendix widget package offers a number of widgets:
 
-### Desktop/Online Mobile
  - Search widgets:
    - Multifield Search: Offers multi-column live searching from a single search box. Search on associated entities, or even build your own custom XPath string.
    - Comparison: Renders an input box with live searching on a single attribute. Also supports a calendar selector for dates. The calendar will render automatically when you select a date field.
