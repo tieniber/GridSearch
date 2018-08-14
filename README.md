@@ -65,7 +65,7 @@ This widget offers multi-column live searching from a single search box (like th
    * OR Condition string: the string used to split the search text into multiple parts. Each will become a condition on the search split by OR.
    * Interpret as RegEx: if true, the OR condition string will be interpreted as a regular expression. In this way, you can split by whitespace or newlines. This feature was developed so that values could be copy-pasted from Excel directly into this search box and be split properly.
 
-###Comparison
+### Comparison
 Renders an input box with live searching on a single attribute. Also supports a calendar selector for dates. The calendar will render automatically when you select a date field.
 
 * Appearance
@@ -84,7 +84,7 @@ Renders an input box with live searching on a single attribute. Also supports a 
       * Less than
       * Less than or equal to
 
-###Dynamic Dropdown
+### Dynamic Dropdown
 Renders a dropown with a dynamic list of dropdown options for local booleans or enumerations, or a list of options over one or more associations.
 
 * Appearance
@@ -105,7 +105,7 @@ Renders a dropown with a dynamic list of dropdown options for local booleans or 
    * Listen Key: if you'd like values in this dynamic dropdown to be constrained by another one, enter the Cascade Key from the other widget here.
    * Path to Listen: the path from the Dropdown entity to the Entity in the Cascaded filter.
 
-###Static Dropdown
+### Static Dropdown
 Renders a dropdown with hard-coded dropdown options. Write your own XPath constraints and apply them using the dropdown.
 
 * Appearance
@@ -125,7 +125,7 @@ Renders a dropdown with hard-coded dropdown options. Write your own XPath constr
    * XPath: an XPath constraint limiting the available options in this dropdown list.
 
 
-###Enumeration Checkbox
+### Enumeration Checkbox
 Renders a set of checkboxes related to an enumeration (Like priority: High, Medium, Low)
 
 * Appearance
@@ -134,7 +134,7 @@ Renders a set of checkboxes related to an enumeration (Like priority: High, Medi
    * Grid Entity: the type of objects in the grid
    * Attribute: The attribute to use in the filter. For local attributes, only Enums and Booleans are value. When following a path, any attribute type is valid.
 
-###Association Checkbox
+### Association Checkbox
 Rendered a set of checkboxes based on associated objects (Like categories for products). Also includes the ability to count the number of results and display that value in both numeric and bar graph form.
 
 You can also use this widget to dispay a set of custom filters at runtime. An administrator can create and modify lists of filters (such as product price ranges) using labels and XPath.
@@ -162,13 +162,13 @@ You can also use this widget to dispay a set of custom filters at runtime. An ad
          * Custom Path: a path to the attribute over any kind of reference. Example:
          ```MyFirstModule.Product_Subcategory/MyFirstModule.Subcategory/MyFirstModule.Subcategory_Category/MyFirstModule.Category/Name```
 
-###Reset Button
+### Reset Button
 Resets all of the search boxes connected to a given grid.
 
-###Active Filters
+### Active Filters
 Shows a list of bubbles consisting of any searches currently applied to the grid. Clicking any of the bubbles remove that search criteria.
 
-###Any Search
+### Any Search
 Takes an xpath string from the context entity and applies it to the list/grid! Develop any kind of inputs you like, and use a microflow or nanoflow to create the XPath string that should be applied to the grid!
 
 Put this widget in a non-persistable context entity (a "search helper" entity) that contains an attribute that will hold XPath for the grid/list, as well as whatever else it needs for display purposes (references, other string or data inputs, enumerations).
