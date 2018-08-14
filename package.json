@@ -1,7 +1,7 @@
 {
   "name": "GridSearch",
-  "version": "2.2.4",
-  "description": "Search Mendix Template Grids and Data Grids using a single-field search.",
+  "version": "2.3.0",
+  "description": "Search Mendix Grids and Lists using a number of search widgets.",
   "license": "Apache 2",
   "author": "Eric Tieniber",
   "private": true,
