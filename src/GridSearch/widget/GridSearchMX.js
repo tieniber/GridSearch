@@ -21,6 +21,7 @@ define([
         _contextObj: null,
         _searchEntity: null,
         _searchAttribute: null,
+        _renderingComplete: false,
 
         //modeler
         gridEntity: null,
@@ -51,8 +52,21 @@ define([
         update: function (obj, callback) {
 
             this._setupGrid();
-            this._contextObj = obj;
+            if (!this._renderingComplete || this._contextObj !== obj) {
+                this._contextObj = obj;
+                this._updateRendering(callback);
+            } else {
+                if (callback) { callback() };
+            }
 
+        },
+        _updateRendering: function(callback) {
+            //clean up any old widget before building a new one
+            if (this.searchWidget) {
+                this.domNode.removeChild(this.searchWidget.domNode);
+                this.searchWidget.uninitialize();
+            }
+            
             //set up parameters for the Mendix SearchInput widget
             var parameters = {
                 searchInputName: this.id.toString(),
@@ -154,6 +168,8 @@ define([
             this.searchWidget.reinit(function () {
                 // this.searchWidget._input ==> This is the select node, with options, but none are mendix widgets
             }.bind(this)); // CC hack fix for Mx 7
+
+            this._renderingComplete = true;
 
             if (callback) { callback() };
         },
