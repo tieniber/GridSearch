@@ -138,7 +138,8 @@ define([
 			}
 
 			if (outvalue) {
-				this._currentFilter = this.selectNode.selectedOptions[0].innerText;
+				this._currentFilter = this.selectNode.querySelector("[value='" + this.selectNode.value + "']").innerText;
+
 			} else {
 				this._currentFilter = null;
 			}

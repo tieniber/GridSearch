@@ -105,6 +105,7 @@ define([
 
         _finishGridSetup: function () {
             this._resetSubscriptions();
+            this._fireSearch();
             // this doesn't seem to work :()
             // if (this.getState("searchValue", "")) {
             //     this._contextObj.set(this.xpathAttribute, this.getState("searchValue", ""));
