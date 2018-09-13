@@ -126,26 +126,30 @@ define([
 		},
 		_fireSearchOneGrid: function (grid, constraints) {
 			var datasource = grid._datasource,
-				self = this;
+				self = this,
+				constraintsChanged = false;
 
 			if (!datasource) {
 				datasource = grid._dataSource;
 			}
 
-			datasource.setConstraints(constraints);
-			console.log("set constraints for grid: " + grid.id)
-
-			//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-			if (grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
-				if (constraints) {
-					grid._searchFilled = true;
-				} else {
-					//grid._searchFilled = false; //grid doesn't refresh or empty if you do this
-					datasource.setConstraints("[1=0]");
+			if (datasource._constraints !== constraints) {
+				datasource.setConstraints(constraints);
+				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+				if (grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
+					if (constraints) {
+						grid._searchFilled = true;
+					} else {
+						//grid._searchFilled = false; //grid doesn't refresh or empty if you do this
+						datasource.setConstraints("[1=0]");
+					}
 				}
+				self.onSearchChanged();
+				self._reloadOneGrid(grid);
+				console.log("set constraints for grid: " + grid.id)
+			} else {
+				console.log("did not set constraints for grid as they did not change: " + grid.id)
 			}
-			self.onSearchChanged();
-			self._reloadGrid();
 
 		},
 		_getSearchConstraintAllSearchBoxes: function () {
