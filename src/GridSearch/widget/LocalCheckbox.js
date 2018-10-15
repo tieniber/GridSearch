@@ -5,11 +5,11 @@ define([
 	"dojo/query",
 	"dojo/dom-construct",
 	"dijit/_TemplatedMixin",
-	"dojo/text!GridSearch/widget/template/EnumCheckbox.html"
+	"dojo/text!GridSearch/widget/template/LocalCheckbox.html"
 ], function (declare, Core, dojoLang, dojoQuery, domConstruct, _TemplatedMixin, widgetTemplate) {
 	"use strict";
 
-	return declare("GridSearch.widget.EnumCheckbox", [Core, _TemplatedMixin], {
+	return declare("GridSearch.widget.LocalCheckbox", [Core, _TemplatedMixin], {
 
 		templateString: widgetTemplate,
 
@@ -17,9 +17,12 @@ define([
 		_handles: null,
 		_contextObj: null,
 		_enumOptions: null,
+		_mode: null,
 
 		//modeler
-		pathToAttribute: "",
+		searchAttribute: "",
+		gridEntity: "",
+		booleanCaption: "",
 
 		constructor: function () {
 			this._enumOptions = [];
@@ -29,15 +32,21 @@ define([
 			logger.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
-			//for version 1, we'll just be getting the options of an enumeration and presenting them here
-			//in a later version, we'll support selecting data over an association as well
-
 			//get static options
-			this._populateEnumOptions();
+			var entity = mx.meta.getEntity(this.gridEntity);
+			var attributeType = entity.getAttributeType(this.searchAttribute);
+			this._mode = attributeType;
+			if (attributeType === "Enum") {
+				this._populateEnumOptions();
+			} else if (attributeType === "Boolean") {
+				this._populateBooleanOption();
+			} else {
+				mx.ui.error("GridSearch - Local Checkbox widget only works with Enums and Booleans.");
+			}
 
 			//retrieve state (if available)
 			//not supported in v1
-			//implement this.getState and the saveState function to store and retrieve selections
+			//TODO: implement this.getState and the saveState function to store and retrieve selections
 			//this.selectNode.value = this.getState("selection", "");
 		},
 
@@ -72,13 +81,15 @@ define([
 			}
 		},
 		_populateEnumOptions: function () {
-			//TODO: implement for v1
-
-			var enumMapping = mx.meta.getEntity(this.gridEntity).getEnumMap(this.pathToAttribute);
+			var enumMapping = mx.meta.getEntity(this.gridEntity).getEnumMap(this.searchAttribute);
 
 			for (var i = 0; i < enumMapping.length; i++) {
 				this._addCheckbox(enumMapping[i]);
 			}
+		},
+		_populateBooleanOption: function () {
+			var boolMapping = {key: "true", caption: this.booleanCaption};
+			this._addCheckbox(boolMapping);
 		},
 
 		//Creates a single checkbox given an enumeration mapping
@@ -136,8 +147,14 @@ define([
 			for (var i = 0; i < this._enumOptions.length; i++) {
 				var currentInput = this._enumOptions[i];
 				if (currentInput.checked) {
-					constraint = constraint + this.pathToAttribute + "='" + currentInput.value + "' or ";
-					filterLabel = filterLabel + currentInput.attributes.label.value + " or ";
+					if(this._mode === "Enum") {
+						constraint = constraint + this.searchAttribute + "='" + currentInput.value + "' or ";
+						filterLabel = filterLabel + currentInput.attributes.label.value + " or ";
+
+					} else if(this._mode === "Boolean") {
+						constraint = constraint + this.searchAttribute + " or ";
+						filterLabel = filterLabel + "true" + " or ";
+					}
 				}
 			}
 
@@ -169,4 +186,4 @@ define([
 	});
 });
 
-require(["GridSearch/widget/EnumCheckbox"]);
+require(["GridSearch/widget/LocalCheckbox"]);
