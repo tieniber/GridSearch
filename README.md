@@ -125,19 +125,19 @@ Renders a dropdown with hard-coded dropdown options. Write your own XPath constr
    * XPath: an XPath constraint limiting the available options in this dropdown list.
 
 
-### Enumeration Checkbox
-Renders a set of checkboxes related to an enumeration (Like priority: High, Medium, Low)
+### Local Checkbox (Enumerations and Booleans)
+Renders a set of checkboxes related to an enumeration (Like priority: High, Medium, Low) or a single checkbox for a boolean (true, false).
 
 * Appearance
    * Filter label: the label to be used by the Active Filters widget when this widget has an search applied to the grid. Not used when Active Filters widget is not used
 * Behavior
    * Grid Entity: the type of objects in the grid
-   * Attribute: The attribute to use in the filter. For local attributes, only Enums and Booleans are value. When following a path, any attribute type is valid.
+   * Attribute: The attribute to use in the filter. Only Enums and Booleans are valid.
 
 ### Association Checkbox
 Rendered a set of checkboxes based on associated objects (Like categories for products). Also includes the ability to count the number of results and display that value in both numeric and bar graph form.
 
-You can also use this widget to dispay a set of custom filters at runtime. An administrator can create and modify lists of filters (such as product price ranges) using labels and XPath.
+You can also use this widget to display a set of custom filters at runtime. An administrator can create and modify lists of filters (such as product price ranges) using labels and XPath.
 
 * Appearance
    * Display visualization: whether to display a bar chart of how many results each filter will return

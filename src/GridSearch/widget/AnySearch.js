@@ -84,13 +84,8 @@ define([
             // call _setupgrid with a callback here
             if (obj) {
                 this._contextObj = obj;
-                this._setupGrid(this._finishGridSetup.bind(this));
+                this._setupGrid(this._finishGridSetup.bind(this, callback));
             }
-
-
-            if (callback) {
-                callback()
-            };
         },
 
         /**
@@ -103,7 +98,7 @@ define([
             t("searchValue", this._contextObj.get(this.xpathAttribute));
         },
 
-        _finishGridSetup: function () {
+        _finishGridSetup: function (callback) {
             this._resetSubscriptions();
             this._fireSearch();
             // this doesn't seem to work :()
@@ -111,6 +106,10 @@ define([
             //     this._contextObj.set(this.xpathAttribute, this.getState("searchValue", ""));
             //     this._fireSearch();
             // }
+
+            if (callback) {
+                callback()
+            };
         },
 
         _resetSubscriptions: function () {
@@ -124,6 +123,7 @@ define([
                 guid: this._contextObj.getGuid(),
                 callback: this._fireSearch
             });
+            this._fireSearch();
         },
     });
 });
