@@ -179,7 +179,10 @@ define([
 			if (grid.reload) {
 				grid.reload();
 			} else if (grid.update) {
-				grid.update();
+				this._loader = mx.ui.showProgress(undefined, true);
+				grid.update(undefined, function () {
+					mx.ui.hideProgress(this._loader);
+				}.bind(this));
 			} else {
 				console.log("Could not find the grid refresh/reload function");
 			}
