@@ -47,7 +47,7 @@ define([
 				// set to the default option
 				var defaultOption = this.selectNode.querySelector("[data-default='true']");
 				if (defaultOption && defaultOption.value) {
-					this.selectNode.value = defaultValue;
+					this.selectNode.value = defaultOption.value;
 				}
 			}
 
