@@ -61,6 +61,10 @@ define([
 				this._searchWidgets[this.targetGridClass] = [];
 			}
 			this._searchWidgets[this.targetGridClass].push(this);
+			this._findSearchableLists(callback);
+			
+		},
+		_findSearchableLists: function(callback) {
 			var nodeList = dojoQuery("." + this.targetGridClass);
 
 			var gridNodes = nodeList; // ? nodeList[nodeList.length-1]: null;
@@ -116,6 +120,7 @@ define([
 		},
 		_fireSearch: function () {
 			var constraints = this._getSearchConstraintAllSearchBoxes();
+			this._findSearchableLists();
 			for (var i = 0; i < this._grids.length; i++) {
 				this._fireSearchOneGrid(this._grids[i], constraints);
 			}
