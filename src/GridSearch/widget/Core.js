@@ -60,7 +60,7 @@ define([
 			if (!this._searchWidgets[this.targetGridClass]) {
 				this._searchWidgets[this.targetGridClass] = [];
 			}
-			if (this._searchWidgets.indexOf(this) === -1) {
+			if (this._searchWidgets[this.targetGridClass].indexOf(this) === -1) {
 				this._searchWidgets[this.targetGridClass].push(this);
 			}
 			this._findSearchableLists(callback);
