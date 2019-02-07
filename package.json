@@ -1,6 +1,6 @@
 {
   "name": "GridSearch",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Search Mendix Grids and Lists using a number of search widgets.",
   "license": "Apache 2",
   "author": "Eric Tieniber",

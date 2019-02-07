@@ -88,7 +88,7 @@ define([
 			}
 		},
 		_populateBooleanOption: function () {
-			var boolMapping = {key: "true", caption: this.booleanCaption};
+			var boolMapping = { key: "true", caption: this.booleanCaption };
 			this._addCheckbox(boolMapping);
 		},
 
@@ -147,11 +147,11 @@ define([
 			for (var i = 0; i < this._enumOptions.length; i++) {
 				var currentInput = this._enumOptions[i];
 				if (currentInput.checked) {
-					if(this._mode === "Enum") {
+					if (this._mode === "Enum") {
 						constraint = constraint + this.searchAttribute + "='" + currentInput.value + "' or ";
 						filterLabel = filterLabel + currentInput.attributes.label.value + " or ";
 
-					} else if(this._mode === "Boolean") {
+					} else if (this._mode === "Boolean") {
 						constraint = constraint + this.searchAttribute + " or ";
 						filterLabel = filterLabel + "true" + " or ";
 					}

@@ -43,7 +43,7 @@ define([
         },
 
         postCreate: function () {
-            logger.debug(this.id + ".postCreate"); 
+            logger.debug(this.id + ".postCreate");
             this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
@@ -60,13 +60,13 @@ define([
             }
 
         },
-        _updateRendering: function(callback) {
+        _updateRendering: function (callback) {
             //clean up any old widget before building a new one
             if (this.searchWidget) {
                 this.domNode.removeChild(this.searchWidget.domNode);
                 this.searchWidget.uninitialize();
             }
-            
+
             //set up parameters for the Mendix SearchInput widget
             var parameters = {
                 searchInputName: this.id.toString(),
@@ -144,7 +144,9 @@ define([
                 mxcontext: this.mxcontext
             }, parameters));
             //single select dropdown
-            this.connect(this.searchWidget._input, "onchange", this._fireSearch.bind(this));
+            if (this.searchWidget._input) {
+                this.connect(this.searchWidget._input, "onchange", this._fireSearch.bind(this));
+            }
             //date selector
             this.searchWidget.onChange = this._fireSearch.bind(this);
             //multi-select dropdown
@@ -232,6 +234,7 @@ define([
         _updateEmptyCaption: function () {
             if (this.searchWidget._input && this.searchWidget._input.options[0]) {
                 this.searchWidget._input.options[0].label = this.emptyCaption;
+                this.searchWidget._input.options[0].innerText = this.emptyCaption; // fix for firefox
                 this.searchWidget._input.selectedIndex = 0;
             }
         },

@@ -41,7 +41,7 @@ define([
             //this function should clear the search widget
             this._contextObj.set(this.xpathAttribute, null);
             this._currentFilter = null;
-            if (this.onClearNf) {
+            if (!this._isEmptyObject(this.onClearNf)) {
                 // execute nanoflow to clear
                 mx.data.callNanoflow({
                     nanoflow: this.onClearNf,
@@ -100,6 +100,7 @@ define([
 
         _finishGridSetup: function (callback) {
             this._resetSubscriptions();
+            this._fireSearch();
             // this doesn't seem to work :()
             // if (this.getState("searchValue", "")) {
             //     this._contextObj.set(this.xpathAttribute, this.getState("searchValue", ""));
@@ -124,6 +125,14 @@ define([
             });
             this._fireSearch();
         },
+
+        _isEmptyObject: function (obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key))
+                    return false;
+            }
+            return true;
+        }
     });
 });
 require(["GridSearch/widget/AnySearch"]);

@@ -183,12 +183,22 @@ define([
 			}
 		},
 		_reloadOneGrid: function (grid) {
+			this._startProgressBar();
 			if (grid.reload) {
-				grid.reload();
+				grid.reload(this._stopProgressBar.bind(this));
 			} else if (grid.update) {
-				grid.update();
+				grid.update(undefined, this._stopProgressBar.bind(this));
 			} else {
 				console.log("Could not find the grid refresh/reload function");
+			}
+		},
+		_startProgressBar: function () {
+			this._loader = this._loader || mx.ui.showProgress(undefined, true);
+		},
+		_stopProgressBar: function () {
+			if (this._loader) {
+				mx.ui.hideProgress(this._loader);
+				this._loader = null;
 			}
 		},
 		onSearchChanged: function () {
