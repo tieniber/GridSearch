@@ -234,6 +234,7 @@ define([
         _updateEmptyCaption: function () {
             if (this.searchWidget._input && this.searchWidget._input.options[0]) {
                 this.searchWidget._input.options[0].label = this.emptyCaption;
+                this.searchWidget._input.options[0].innerText = this.emptyCaption; // fix for firefox
                 this.searchWidget._input.selectedIndex = 0;
             }
         },
