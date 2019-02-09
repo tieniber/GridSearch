@@ -163,6 +163,7 @@ define([
             }
             //set the empty label for dropdowns
             if (this.emptyCaption && this.searchWidget._input) {
+                window.setTimeout(this._updateEmptyCaption.bind(this), 50);
                 aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaption.bind(this));
             }
 
