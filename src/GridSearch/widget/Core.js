@@ -183,7 +183,7 @@ define([
 			}
 		},
 		_reloadOneGrid: function (grid) {
-			this._startProgressBar();
+			this._startProgressBarDelay();
 			if (grid.reload) {
 				grid.reload(this._stopProgressBar.bind(this));
 			} else if (grid.update) {
@@ -192,10 +192,16 @@ define([
 				console.log("Could not find the grid refresh/reload function");
 			}
 		},
+		_startProgressBarDelay: function () {
+			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this),250);
+		},
 		_startProgressBar: function () {
-			this._loader = this._loader || mx.ui.showProgress(undefined, true);
+			this._loader = this._loader || mx.ui.showProgress(undefined, false);
 		},
 		_stopProgressBar: function () {
+			if (this._pendingLoader) {
+				window.clearTimeout(this._pendingLoader);
+			}
 			if (this._loader) {
 				mx.ui.hideProgress(this._loader);
 				this._loader = null;
