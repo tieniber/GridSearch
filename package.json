@@ -25,7 +25,7 @@
   },
   "generatorVersion": "2.0.1",
   "paths": {
-    "testProjectFolder": "./test/",
+    "testProjectFolder": "/Volumes/[C] Windows 10.hidden/Mendix/Widget/",
     "testProjectFileName": "Test.mpr"
   },
   "scripts": {

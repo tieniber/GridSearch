@@ -157,7 +157,10 @@ define([
 			} else {
 				console.log("did not set constraints for grid as they did not change: " + grid.id)
 			}
-
+			//duct tape and glue connection to the List View Controls widget
+			if (grid.__customWidgetDataSourceHelper) {
+				grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
+			} 
 		},
 		_getSearchConstraintAllSearchBoxes: function () {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
@@ -183,14 +186,22 @@ define([
 			}
 		},
 		_reloadOneGrid: function (grid) {
-			this._startProgressBarDelay();
-			if (grid.reload) {
-				grid.reload(this._stopProgressBar.bind(this));
-			} else if (grid.update) {
-				grid.update(undefined, this._stopProgressBar.bind(this));
+			//if this grid has List View Controls connected, use its loader instead
+			if (grid.__customWidgetDataSourceHelper) {
+				var dsh = grid.__customWidgetDataSourceHelper
+				dsh.requiresUpdate = true;
+				dsh.iterativeUpdateDataSource();
 			} else {
-				console.log("Could not find the grid refresh/reload function");
+				this._startProgressBarDelay();
+				if (grid.reload) {
+					grid.reload(this._stopProgressBar.bind(this));
+				} else if (grid.update) {
+					grid.update(undefined, this._stopProgressBar.bind(this));
+				} else {
+					console.log("Could not find the grid refresh/reload function");
+				}
 			}
+
 		},
 		_startProgressBarDelay: function () {
 			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this),250);

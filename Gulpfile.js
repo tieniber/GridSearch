@@ -29,6 +29,10 @@ gulp.task("default", function() {
     gulp.watch("./src/**/*.js", ["copy:js"]);
 });
 
+gulp.task("copyonly", function() {
+    gulp.watch("./src/**/*.js", ["copy:js"]);
+});
+
 gulp.task("clean", function () {
     return del([
         paths.WIDGET_TEST_DEST,
