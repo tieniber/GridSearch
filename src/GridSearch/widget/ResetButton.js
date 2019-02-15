@@ -7,10 +7,11 @@ define([
     "use strict";
 
     return declare("GridSearch.widget.ResetButton", [Core, _TemplatedMixin], {
-
+        buttonCaption: null,
         templateString: widgetTemplate,
         update: function (obj, callback) {
             logger.debug(this.id + ".update");
+            this.resetButton.innerText = this.buttonCaption;
 
             this._setupGrid();
             this.connect(this.resetButton, "click", "_clearAllSearchBoxes");
