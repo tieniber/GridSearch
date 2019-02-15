@@ -161,10 +161,14 @@ define([
             if (!this.showLabel) {
                 dojoQuery(".mx-grid-search-label", this.searchContainer).forEach(domConstruct.destroy);
             }
-            //set the empty label for dropdowns
+            //set the empty label for single-select dropdowns
             if (this.emptyCaption && this.searchWidget._input) {
-                window.setTimeout(this._updateEmptyCaption.bind(this), 50);
-                aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaption.bind(this));
+                window.setTimeout(this._updateEmptyCaptionSS.bind(this), 50);
+                aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaptionSS.bind(this));
+            }
+            //set the empty label for multi-select dropdowns
+            if (this.emptyCaption && this.multiSelect && this.searchWidget._widget && this.searchWidget._widget._textNode) {
+                aspect.after(this.searchWidget._widget, "_updateCaption", this._updateEmptyCaptionMS.bind(this));
             }
 
             this.searchWidget.startup();
@@ -232,11 +236,16 @@ define([
             //this.onSearchChanged();
             return outvalue;
         },
-        _updateEmptyCaption: function () {
+        _updateEmptyCaptionSS: function () {
             if (this.searchWidget._input && this.searchWidget._input.options[0]) {
                 this.searchWidget._input.options[0].label = this.emptyCaption;
                 this.searchWidget._input.options[0].innerText = this.emptyCaption; // fix for firefox
                 this.searchWidget._input.selectedIndex = 0;
+            }
+        },
+        _updateEmptyCaptionMS: function () {
+            if(this.searchWidget._widget._textNode.nodeValue === "") {
+                this.searchWidget._widget._textNode.nodeValue = this.emptyCaption;
             }
         },
         _clear: function () {
