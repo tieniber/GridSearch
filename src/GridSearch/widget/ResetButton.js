@@ -11,7 +11,7 @@ define([
         templateString: widgetTemplate,
         update: function (obj, callback) {
             logger.debug(this.id + ".update");
-            this.resetButton.innerText = this.buttonCaption;
+            this.resetButton.innerText = this.buttonCaption || "";
 
             this._setupGrid();
             this.connect(this.resetButton, "click", "_clearAllSearchBoxes");
