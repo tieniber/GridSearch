@@ -55,11 +55,19 @@
 			<category>Static Options</category>
 			<description>The attributes that will be considered when searching.</description>
 			<properties>
-				<property key="optionLabel" type="string" required="true">
+				<property key="optionLabel" type="translatableString" required="true">
 					<caption>Option Label</caption>
 					<category>Behavior</category>
 					<description>The label for this option in the dropdown.</description>
+					<translations>
+						<translation lang="en_US"></translation>
+					</translations>
 				</property>
+				<!-- <property key="optionLabel" type="string" required="true">
+					<caption>Option Label</caption>
+					<category>Behavior</category>
+					<description>The label for this option in the dropdown.</description>
+				</property> -->
 				<property key="optionXPath" type="entityConstraint" entityProperty="../gridEntity" required="false">
 					<caption>XPath</caption>
 					<category>Behavior</category>

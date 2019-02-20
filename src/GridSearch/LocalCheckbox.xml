@@ -31,7 +31,7 @@
 			<category>Appearance</category>
 			<description>A label to be used by the Applied Filters widget when this widget has an active filter.</description>
 		</property>		 -->
-		<property key="booleanCaption" type="translatableString" required="false">
+		<property key="booleanCaption" type="translatableString" required="true">
 			<caption>Boolean Caption</caption>
 			<category>Appearance</category>
 			<description>When choosing a boolean attribute, set a label for the checkbox.</description>

@@ -37,19 +37,19 @@
 			<description>Whether to show the search box label.</description>
 		</property>
 		<property key="caption" type="translatableString" required="true">
-		  <caption>Input Label</caption>
-		  <category>Appearance</category>
-		  <description>The label that will appear next to the search input.</description>
-		  <translations>
-			<translation lang="en_US"></translation>
-		  </translations>
+			<caption>Input Label</caption>
+			<category>Appearance</category>
+			<description>The label that will appear next to the search input.</description>
+			<translations>
+				<translation lang="en_US"></translation>
+			</translations>
 		</property>
 		<!-- <property key="caption" type="string" required="true" defaultValue="">
 			<caption>Input Label</caption>
 			<category>Appearance</category>
 			<description>The label that will appear next to the search input.</description>
-		</property>
-		<property key="gridEntity" type="entity" required="true"> -->
+		</property> -->
+		<property key="gridEntity" type="entity" required="true">
 			<caption>Grid Entity</caption>
 			<category>Behavior</category>
 			<description>The type of objects in the grid.</description>
