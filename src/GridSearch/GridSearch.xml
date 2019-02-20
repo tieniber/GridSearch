@@ -36,6 +36,14 @@
 				<translation lang="en_US"></translation>
 			</translations>
 		</property>
+		<property key="placeholderText" type="translatableString" required="true">
+			<caption>Placeholder</caption>
+			<category>Appearance</category>
+			<description>The placeholder text for the search input</description>
+			<translations>
+				<translation lang="en_US">Search</translation>
+			</translations>
+		</property>
 		<!-- <property key="filterLabel" type="string" required="true" defaultValue="">
             <caption>Filter Label</caption>
             <category>Appearance</category>

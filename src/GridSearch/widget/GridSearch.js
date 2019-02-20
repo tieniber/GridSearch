@@ -24,6 +24,7 @@ define([
 		//modeler
 		gridEntity: null,
 		minCharacters: 0,
+		placeholderText: null,
 
 		constructor: function () {
 			this._handles = [];
@@ -43,7 +44,8 @@ define([
 			} else {
 				this._searchNode = this.searchNodeSingle;
 			}
-
+			// set the placeholder text according to the language
+			this._searchNode.placeholder = this.placeholderText;
 			this.connect(this.buttonNode, "click", "_clearAllSearchBoxes");
 			this.connect(this._searchNode, "keyup", "_clearOnEscape");
 			//retrieve state (if available)
