@@ -10,13 +10,13 @@
 	<properties>
 		<property key="targetGridName" type="string" required="false" defaultValue="">
 			<caption>Grid Name</caption>
-			<category>Appearance</category>
-			<description>The name of the grid on this page, as configured in the modeler. Optionally use a class name instead in the "Grid Class" parameter.</description>
+			<category>List</category>
+			<description>The name of the list/grid on this page, as configured in the modeler. Optionally use a class name instead in the "Grid Class" parameter.</description>
 		</property>
 		<property key="targetGridClass" type="string" required="false" defaultValue="">
 			<caption>Grid Class</caption>
-			<category>Appearance</category>
-			<description>(Optional) Instead of a grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
+			<category>List</category>
+			<description>(Optional) Instead of a list/grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
 		</property>
 		<property key="filterLabel" type="translatableString" required="true">
 			<caption>Filter Label</caption>
@@ -46,8 +46,8 @@
 		</property> -->
 		<property key="gridEntity" type="entity" required="true">
 			<caption>Grid Entity</caption>
-			<category>Behavior</category>
-			<description>The type of objects in the grid.</description>
+			<category>List</category>
+			<description>The type of objects in the list/grid.</description>
 		</property>
 		<property key="searchAttribute" type="attribute" entityProperty="gridEntity" isPath="no" required="true">
 			<caption>Attribute</caption>

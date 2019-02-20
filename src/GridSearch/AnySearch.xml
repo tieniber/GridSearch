@@ -12,12 +12,12 @@
         -->
         <property key="targetGridName" type="string" required="false" defaultValue="">
             <caption>Grid Name</caption>
-            <category>Appearance</category>
+            <category>List</category>
             <description>The name of the grid on this page, as configured in the modeler. Optionally use a class name instead in the "Grid Class" parameter.</description>
         </property>
         <property key="targetGridClass" type="string" required="false" defaultValue="">
             <caption>Grid Class</caption>
-            <category>Appearance</category>
+            <category>List</category>
             <description>(Optional) Instead of a grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
         </property>
         <property key="filterLabel" type="translatableString" required="false">
