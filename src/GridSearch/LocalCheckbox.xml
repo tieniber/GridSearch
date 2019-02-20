@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="GridSearch.widget.LocalCheckbox" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>Checkbox - Enum/Boolean</name>
-    <description>The description of this widget.</description>
+<widget id="GridSearch.widget.LocalCheckbox" needsEntityContext="false" 
+	xmlns="http://www.mendix.com/widget/1.0/">
+	<name>Checkbox - Enum/Boolean</name>
+	<description>The description of this widget.</description>
 
 	<icon> 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
 	</icon>
@@ -12,21 +13,37 @@
 			<category>Appearance</category>
 			<description>The name of the grid on this page, as configured in the modeler. Optionally use a class name instead in the "Grid Class" parameter.</description>
 		</property>
-        <property key="targetGridClass" type="string" required="false" defaultValue="">
-            <caption>Grid Class</caption>
-            <category>Appearance</category>
-            <description>(Optional) Instead of a grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
-        </property>		
-		<property key="filterLabel" type="string" required="true" defaultValue="">
+		<property key="targetGridClass" type="string" required="false" defaultValue="">
+			<caption>Grid Class</caption>
+			<category>Appearance</category>
+			<description>(Optional) Instead of a grid name, you can enter the CSS class of one or more grids here. Any grids on the page with this class will be connected.</description>
+		</property>
+		<property key="filterLabel" type="translatableString" required="true">
+			<caption>Filter Label</caption>
+			<category>Appearance</category>
+			<description>A label to be used by the Active Filters widget when this widget has an active filter.</description>
+			<translations>
+				<translation lang="en_US"></translation>
+			</translations>
+		</property>
+		<!-- <property key="filterLabel" type="string" required="true" defaultValue="">
 			<caption>Filter Label</caption>
 			<category>Appearance</category>
 			<description>A label to be used by the Applied Filters widget when this widget has an active filter.</description>
-		</property>		
-		<property key="booleanCaption" type="string" required="false" defaultValue="My Checkbox">
+		</property>		 -->
+		<property key="booleanCaption" type="translatableString" required="true">
 			<caption>Boolean Caption</caption>
 			<category>Appearance</category>
 			<description>When choosing a boolean attribute, set a label for the checkbox.</description>
-		</property>		
+			<translations>
+				<translation lang="en_US">My Checkbox</translation>
+			</translations>
+		</property>
+		<!-- <property key="booleanCaption" type="string" required="false" defaultValue="My Checkbox">
+			<caption>Boolean Caption</caption>
+			<category>Appearance</category>
+			<description>When choosing a boolean attribute, set a label for the checkbox.</description>
+		</property> -->
 		<property key="gridEntity" type="entity" required="true">
 			<caption>Grid Entity</caption>
 			<category>Behavior</category>
