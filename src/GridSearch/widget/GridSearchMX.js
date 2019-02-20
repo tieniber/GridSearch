@@ -161,15 +161,7 @@ define([
             if (!this.showLabel) {
                 dojoQuery(".mx-grid-search-label", this.searchContainer).forEach(domConstruct.destroy);
             }
-            //set the empty label for single-select dropdowns
-            if (this.emptyCaption && this.searchWidget._input) {
-                window.setTimeout(this._updateEmptyCaptionSS.bind(this), 50);
-                aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaptionSS.bind(this));
-            }
-            //set the empty label for multi-select dropdowns
-            if (this.emptyCaption && this.multiSelect && this.searchWidget._widget && this.searchWidget._widget._textNode) {
-                aspect.after(this.searchWidget._widget, "_updateCaption", this._updateEmptyCaptionMS.bind(this));
-            }
+            this._configEmptyCaption();
 
             this.searchWidget.startup();
             this.searchWidget.reinit(function () {
@@ -236,6 +228,17 @@ define([
             //this.onSearchChanged();
             return outvalue;
         },
+        _configEmptyCaption: function() {
+            //set the empty label for single-select dropdowns
+            if (this.emptyCaption && this.searchWidget._input) {
+                window.setTimeout(this._updateEmptyCaptionSS.bind(this), 50);
+                aspect.after(this.searchWidget, "_fillInput", this._updateEmptyCaptionSS.bind(this));
+            }
+            //set the empty label for multi-select dropdowns
+            if (this.emptyCaption && this.multiSelect && this.searchWidget._widget && this.searchWidget._widget._textNode) {
+                aspect.after(this.searchWidget._widget, "_updateCaption", this._updateEmptyCaptionMS.bind(this));
+            }
+        },
         _updateEmptyCaptionSS: function () {
             if (this.searchWidget._input && this.searchWidget._input.options[0]) {
                 this.searchWidget._input.options[0].label = this.emptyCaption;
@@ -249,10 +252,10 @@ define([
             }
         },
         _clear: function () {
-            this.searchWidget.reset();
-
             this._currentFilter = null;
-            this._fireSearchWithDelay();
+            this.onSearchChanged();
+            this.searchWidget.reset();
+            this._configEmptyCaption();
         }
     });
 });

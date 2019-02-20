@@ -149,6 +149,7 @@ define([
 		_clear: function () {
 			this.selectNode.value = "";
 			this._currentFilter = null;
+			this.onSearchChanged();
 		},
 	});
 });
