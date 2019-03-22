@@ -64,9 +64,9 @@ define([
 				this._searchWidgets[this.targetGridClass].push(this);
 			}
 			this._findSearchableLists(callback);
-			
+
 		},
-		_findSearchableLists: function(callback) {
+		_findSearchableLists: function (callback) {
 			var nodeList = dojoQuery("." + this.targetGridClass);
 
 			var gridNodes = nodeList; // ? nodeList[nodeList.length-1]: null;
@@ -160,7 +160,7 @@ define([
 			//duct tape and glue connection to the List View Controls widget
 			if (grid.__customWidgetDataSourceHelper) {
 				grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
-			} 
+			}
 		},
 		_getSearchConstraintAllSearchBoxes: function () {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
@@ -204,7 +204,7 @@ define([
 
 		},
 		_startProgressBarDelay: function () {
-			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this),250);
+			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this), 250);
 		},
 		_startProgressBar: function () {
 			this._loader = this._loader || mx.ui.showProgress(undefined, false);
@@ -275,10 +275,10 @@ define([
 				 * if the filter on the listenerWidget dropdown needs to change, clear it
 				 * if the filter on the listenerWidget doesn't need to change, do nothing
 				 */
-				var upperFilter = this._getSearchConstraint().split(listenerWidget.listenPath).slice(-1)[0]; // last item in array
+				var upperFilter = this._getSearchConstraint().split("/").slice(-1)[0]; // last item in path
 				if (upperFilter) {
 					var lowerOptionFilter = listenerWidget.searchWidget._datasource.getConstraints();
-					var newLowerOptionFilter = "[(" + listenerWidget.listenPath + upperFilter;
+					var newLowerOptionFilter = "[(" + listenerWidget.listenPath + "/" + upperFilter;
 
 					if (lowerOptionFilter != newLowerOptionFilter) {
 						// set new constraint
