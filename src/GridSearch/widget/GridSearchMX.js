@@ -54,6 +54,8 @@ define([
             this._setupGrid();
             if (!this._renderingComplete || this._contextObj !== obj) {
                 this._contextObj = obj;
+                this._currentFilter = null;
+                this.onSearchChanged();
                 this._updateRendering(callback);
             } else {
                 if (callback) { callback() };
