@@ -7,9 +7,10 @@ define([
 	"dojo/_base/lang",
 	"dijit/registry",
 	"dojo/promise/all",
-	"dojo/Deferred"
+	"dojo/Deferred",
+	"dojo/aspect"
 
-], function (declare, _WidgetBase, _StatefulMixin, dojoQuery, dojoLang, registry, all, Deferred) {
+], function (declare, _WidgetBase, _StatefulMixin, dojoQuery, dojoLang, registry, all, Deferred, dojoAspect) {
 	"use strict";
 
 	return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin], {
@@ -95,7 +96,12 @@ define([
 						this._constraints = newConstraint;
 					}
 				}
-
+				// play nice with existing search widgets
+				if (grid._searchGetConstraints && !grid._gridSearchPlayNiceHandler) {
+					grid._gridSearchPlayNiceHandler = dojoAspect.after(grid, "_searchGetConstraints", function (result) {
+						return result + this._getSearchConstraintAllSearchBoxes();
+					}.bind(this));
+				}
 				if (!grid.gridSearchWidgets) {
 					grid.gridSearchWidgets = {};
 				}
@@ -121,9 +127,15 @@ define([
 			}, 250);
 		},
 		_fireSearch: function () {
-			var constraints = this._getSearchConstraintAllSearchBoxes();
+			var constraints;
 			this._findSearchableLists();
 			for (var i = 0; i < this._grids.length; i++) {
+				// play nice (only data grids)
+				if (this._grids[i]._gridSearchPlayNiceHandler) {
+					constraints = this._grids[i]._searchGetConstraints();
+				} else {
+					constraints = this._getSearchConstraintAllSearchBoxes();
+				}
 				this._fireSearchOneGrid(this._grids[i], constraints);
 			}
 			console.log("Fired search for " + this._grids.length + " grids.")
