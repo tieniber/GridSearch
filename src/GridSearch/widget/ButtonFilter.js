@@ -20,6 +20,7 @@ define([
         _currentFilterXpath: null,
         _clickedButtons: null,
         _defaultButton: null,
+        _buttonEls: null,
 
         /**
          * @override
@@ -52,7 +53,7 @@ define([
             this._buttonEls = [];
             for (var i = 0; i < this.searchOptions.length; i++) {
                 var newButton = document.createElement("button");
-                newButton.className = "btn btn-default";
+                newButton.className = "btn btn-default btn-filter";
                 newButton.innerText = this.searchOptions[i].optionLabel;
                 newButton.dataset.filter = this.searchOptions[i].optionXPath;
                 this._buttonEls.push(newButton);
@@ -98,6 +99,9 @@ define([
                         curGrid._searchFilled = true;
                     }
                 }
+                if (this.showCounts) {
+                    this._addCountsToAllButtons();
+                }
                 if (this._defaultButton) {
                     // there's a default search, so fire it.
                     this._onButtonClick(this._defaultButton);
@@ -135,6 +139,10 @@ define([
 
             // 3. Remove all active classes from the buttons
             this._resetActiveClassOnAllButtons();
+            if (this.showCounts) {
+                this._addCountsToAllButtons();
+            }
+
 
             // 2. Toggle the active class on this button
             for (var i = 0; i < this._clickedButtons.length; i++) {
@@ -174,7 +182,35 @@ define([
                     return false;
             }
             return true;
+        },
+        /**
+         * countToTemplate
+         * @param {number} count 
+         */
+        _countToTemplate: function (count) {
+            return " (" + count + ")";
+        },
+        _addCountToOneButton: function (button) {
+            var fullXpath = button.dataset.filter;
+            mx.data.get({
+                xpath: "//" + this.gridEntity + fullXpath,
+                count: true,
+                filter: { amount: 1 },
+                callback: function (objs, count) {
+                    button.dataset.badge = (this.countDisplay === "parens" ? this._countToTemplate(count.count) : count.count)
+                }.bind(this),
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+        },
+        _addCountsToAllButtons: function () {
+            for (var i = 0; i < this._buttonEls.length; i++) {
+                this._addCountToOneButton(this._buttonEls[i]);
+            }
         }
+
+
     });
 });
 require(["GridSearch/widget/ButtonFilter"]);

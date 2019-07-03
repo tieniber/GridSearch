@@ -44,6 +44,20 @@
 			<category>Appearance</category>
 			<description>The class to add when a filter is active. (default: `btn-primary`)</description>
 		</property>
+		<property key="showCounts" type="boolean" defaultValue="false">
+			<caption>Show Counts</caption>
+			<category>Appearance</category>
+			<description>Counts will appear in the ::after pseudoelement of each button.</description>
+		</property>
+		<property key="countDisplay" type="enumeration" defaultValue="parens" required="true">
+			<caption>Count Display</caption>
+			<category>Appearance</category>
+			<description>Render the counts in (parens) or just the number. (Parens) require no styling, while the number is more customizable with CSS. (Only used if "Show Counts" is set to Yes). **If you choose "Advanced", you should add a style rule to target the `.btn-filter::after` pseudoelement</description>
+			<enumerationValues>
+				<enumerationValue key="parens">Parentheses i.e. " (7)"</enumerationValue>
+				<enumerationValue key="badge">Advanced i.e. "7"</enumerationValue>
+			</enumerationValues>
+		</property>
 		<!-- TODO: placeholder for counts -->
 
 		<!-- BEHAVIOR -->

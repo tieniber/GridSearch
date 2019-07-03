@@ -114,3 +114,7 @@
 .gridSearch .counter-bar-wrapper label {
 	flex: 1 15px;
 }
+
+.btn-filter::after{
+    content: attr(data-badge)
+}
