@@ -101,6 +101,7 @@ define([
                     };
                 }
             } else if (this._type === "dropdown") {
+                parameters.defaults = null;
                 if (this._searchEntity === this.gridEntity) {
                     if (this._attributeType === "boolean") {
                         parameters.retriever = "Bool";
@@ -185,7 +186,10 @@ define([
             if (currentVal && this._attributeType === "date") {
                 currentVal = currentVal.getTime();
             }
-            t("searchValue", currentVal);
+            if (currentVal) {
+                t("searchValue", currentVal);
+            }
+
         },
         _getAttributeDetails: function () {
             var pathSections = this.pathToAttribute.split("/");
@@ -230,7 +234,7 @@ define([
             //this.onSearchChanged();
             return outvalue;
         },
-        _configEmptyCaption: function() {
+        _configEmptyCaption: function () {
             //set the empty label for single-select dropdowns
             if (this.emptyCaption && this.searchWidget._input) {
                 window.setTimeout(this._updateEmptyCaptionSS.bind(this), 50);
@@ -249,7 +253,7 @@ define([
             }
         },
         _updateEmptyCaptionMS: function () {
-            if(this.searchWidget._widget._textNode.nodeValue === "") {
+            if (this.searchWidget._widget._textNode.nodeValue === "") {
                 this.searchWidget._widget._textNode.nodeValue = this.emptyCaption;
             }
         },
