@@ -7,9 +7,10 @@ define([
 	"dojo/_base/lang",
 	"dijit/registry",
 	"dojo/promise/all",
-	"dojo/Deferred"
+	"dojo/Deferred",
+	"dojo/aspect"
 
-], function (declare, _WidgetBase, _StatefulMixin, dojoQuery, dojoLang, registry, all, Deferred) {
+], function (declare, _WidgetBase, _StatefulMixin, dojoQuery, dojoLang, registry, all, Deferred, dojoAspect) {
 	"use strict";
 
 	return declare("GridSearch.widget.Core", [_WidgetBase, _StatefulMixin], {
@@ -64,9 +65,9 @@ define([
 				this._searchWidgets[this.targetGridClass].push(this);
 			}
 			this._findSearchableLists(callback);
-			
+
 		},
-		_findSearchableLists: function(callback) {
+		_findSearchableLists: function (callback) {
 			var nodeList = dojoQuery("." + this.targetGridClass);
 
 			var gridNodes = nodeList; // ? nodeList[nodeList.length-1]: null;
@@ -95,7 +96,12 @@ define([
 						this._constraints = newConstraint;
 					}
 				}
-
+				// play nice with existing search widgets
+				if (grid._searchGetConstraints && !grid._gridSearchPlayNiceHandler) {
+					grid._gridSearchPlayNiceHandler = dojoAspect.after(grid, "_searchGetConstraints", function (result) {
+						return result + this._getSearchConstraintAllSearchBoxes();
+					}.bind(this));
+				}
 				if (!grid.gridSearchWidgets) {
 					grid.gridSearchWidgets = {};
 				}
@@ -121,9 +127,15 @@ define([
 			}, 250);
 		},
 		_fireSearch: function () {
-			var constraints = this._getSearchConstraintAllSearchBoxes();
+			var constraints;
 			this._findSearchableLists();
 			for (var i = 0; i < this._grids.length; i++) {
+				// play nice (only data grids)
+				if (this._grids[i]._gridSearchPlayNiceHandler) {
+					constraints = this._grids[i]._searchGetConstraints();
+				} else {
+					constraints = this._getSearchConstraintAllSearchBoxes();
+				}
 				this._fireSearchOneGrid(this._grids[i], constraints);
 			}
 			console.log("Fired search for " + this._grids.length + " grids.")
@@ -160,7 +172,7 @@ define([
 			//duct tape and glue connection to the List View Controls widget
 			if (grid.__customWidgetDataSourceHelper) {
 				grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
-			} 
+			}
 		},
 		_getSearchConstraintAllSearchBoxes: function () {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
@@ -204,7 +216,7 @@ define([
 
 		},
 		_startProgressBarDelay: function () {
-			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this),250);
+			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this), 250);
 		},
 		_startProgressBar: function () {
 			this._loader = this._loader || mx.ui.showProgress(undefined, false);
@@ -275,10 +287,10 @@ define([
 				 * if the filter on the listenerWidget dropdown needs to change, clear it
 				 * if the filter on the listenerWidget doesn't need to change, do nothing
 				 */
-				var upperFilter = this._getSearchConstraint().split(listenerWidget.listenPath).slice(-1)[0]; // last item in array
+				var upperFilter = this._getSearchConstraint().split("/").slice(-1)[0]; // last item in path
 				if (upperFilter) {
 					var lowerOptionFilter = listenerWidget.searchWidget._datasource.getConstraints();
-					var newLowerOptionFilter = "[(" + listenerWidget.listenPath + upperFilter;
+					var newLowerOptionFilter = "[(" + listenerWidget.listenPath + "/" + upperFilter;
 
 					if (lowerOptionFilter != newLowerOptionFilter) {
 						// set new constraint
