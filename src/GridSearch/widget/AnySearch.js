@@ -95,7 +95,7 @@ define([
          *   this value from the store.
          */
         storeState: function (t) {
-            t("searchValue", this._contextObj.get(this.xpathAttribute));
+            //t("searchValue", this._contextObj.get(this.xpathAttribute));
         },
 
         _finishGridSetup: function (callback) {
