@@ -216,14 +216,18 @@ define([
 
 		},
 		_startProgressBarDelay: function () {
-			this._pendingLoader = window.setTimeout(this._startProgressBar.bind(this), 250);
+			this._pendingLoaders = this._pendingLoaders || [];
+			this._pendingLoaders.push(window.setTimeout(this._startProgressBar.bind(this), 250));
 		},
 		_startProgressBar: function () {
 			this._loader = this._loader || mx.ui.showProgress(undefined, false);
 		},
 		_stopProgressBar: function () {
-			if (this._pendingLoader) {
-				window.clearTimeout(this._pendingLoader);
+			if (this._pendingLoaders.length) {
+				for(var i=0; i<this._pendingLoaders.length;i++){
+					window.clearTimeout(this._pendingLoaders[i]);
+				}
+				this._pendingLoaders = [];
 			}
 			if (this._loader) {
 				mx.ui.hideProgress(this._loader);
