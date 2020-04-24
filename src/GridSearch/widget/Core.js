@@ -153,25 +153,27 @@ define([
 			}
 
 			if (datasource._constraints !== constraints) {
-				datasource.setConstraints(constraints);
-				//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
-				if (grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
-					if (constraints) {
-						grid._searchFilled = true;
-					} else {
-						//grid._searchFilled = false; //grid doesn't refresh or empty if you do this
-						datasource.setConstraints("[1=0]");
+				if (grid.__customWidgetDataSourceHelper) {
+					//Using ListViewControls
+					grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
+				} else {
+					//No ListViewControls
+						datasource.setConstraints(constraints);
+						//if the grid is set to wait for search, ensure we set the "_searchFilled" flag
+						if (grid.config && grid.config.gridpresentation && grid.config.gridpresentation.waitforsearch) {
+							if (constraints) {
+								grid._searchFilled = true;
+							} else {
+								//grid._searchFilled = false; //grid doesn't refresh or empty if you do this
+								datasource.setConstraints("[1=0]");
+							}
+						}
 					}
-				}
-				self.onSearchChanged();
-				self._reloadOneGrid(grid);
-				console.log("set constraints for grid: " + grid.id)
+					self.onSearchChanged();
+					self._reloadOneGrid(grid);
+					console.log("set constraints for grid: " + grid.id)
 			} else {
 				console.log("did not set constraints for grid as they did not change: " + grid.id)
-			}
-			//duct tape and glue connection to the List View Controls widget
-			if (grid.__customWidgetDataSourceHelper) {
-				grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
 			}
 		},
 		_getSearchConstraintAllSearchBoxes: function () {
@@ -189,7 +191,6 @@ define([
 			for (var i = 0; i < searchWidgets.length; i++) {
 				searchWidgets[i]._clear();
 			}
-
 			this._fireSearch();
 		},
 		_reloadGrid: function () {
@@ -202,7 +203,7 @@ define([
 			if (grid.__customWidgetDataSourceHelper) {
 				var dsh = grid.__customWidgetDataSourceHelper
 				dsh.requiresUpdate = true;
-				dsh.iterativeUpdateDataSource();
+				dsh.updateDataSource(function() {});
 			} else {
 				this._startProgressBarDelay();
 				if (grid.reload) {

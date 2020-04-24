@@ -117,13 +117,15 @@ define([
             this.subscribe({
                 guid: this._contextObj.getGuid(),
                 attr: this.xpathAttribute,
-                callback: this._fireSearch
+                callback: () => {
+                    this._fireSearch();
+                }
             });
-            this.subscribe({
+            /*this.subscribe({
                 guid: this._contextObj.getGuid(),
                 callback: this._fireSearch
-            });
-            this._fireSearch();
+            });*/
+            //this._fireSearch();
         },
 
         _isEmptyObject: function (obj) {
