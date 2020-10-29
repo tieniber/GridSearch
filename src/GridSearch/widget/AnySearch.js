@@ -37,7 +37,7 @@ define([
          * @todo [x] - set the _currentFilter to null
          * @todo [x] - clear the inputs
          */
-        _clear: function () {
+        _clear: function (shouldReload) {
             //this function should clear the search widget
             this._contextObj.set(this.xpathAttribute, null);
             this._currentFilter = null;
@@ -49,7 +49,9 @@ define([
                     context: this.mxcontext,
                     callback: function (result) {
                         console.log("Nanoflow run to clear inputs");
-                        this._fireSearch();
+                        if (shouldReload) {
+                            this._fireSearch();
+                        }
                     }.bind(this),
                     error: function (error) {
                         console.error(error.message);
@@ -67,7 +69,9 @@ define([
                     callback: function (obj) {
                         // expect single MxObject
                         console.log("microflow run to clear inputs")
-                        this._fireSearch();
+                        if (shouldReload) {
+                            this._fireSearch();
+                        }
                     }.bind(this),
                     error: function (error) {
                         console.error(error.message);

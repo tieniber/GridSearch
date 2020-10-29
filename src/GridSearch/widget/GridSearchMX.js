@@ -257,11 +257,15 @@ define([
                 this.searchWidget._widget._textNode.nodeValue = this.emptyCaption;
             }
         },
-        _clear: function () {
+        _clear: function (shouldReload) {
             this._currentFilter = null;
             this.onSearchChanged();
             this.searchWidget.reset();
             this._configEmptyCaption();
+
+            if (shouldReload) {
+                this._fireSearch();
+            }
         }
     });
 });

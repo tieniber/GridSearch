@@ -146,10 +146,13 @@ define([
 			//this.onSearchChanged();
 			return outvalue;
 		},
-		_clear: function () {
+		_clear: function (shouldReload) {
 			this.selectNode.value = "";
 			this._currentFilter = null;
-			this.onSearchChanged();
+			
+			if (shouldReload) {
+				this.onSearchChanged();
+			}
 		},
 	});
 });

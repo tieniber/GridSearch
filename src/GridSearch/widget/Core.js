@@ -49,7 +49,7 @@ define([
 		_getSearchConstraint: function () {
 			console.error("Widget not implemented properly. A searching widget should implement a _getSearchContraint function.")
 		},
-		_clear: function () {
+		_clear: function (shouldReload) {
 			//this function should clear the search widget
 			console.error("Widget not implemented properly. A searching widget should implement a _clear function.")
 		},
@@ -189,7 +189,7 @@ define([
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
 
 			for (var i = 0; i < searchWidgets.length; i++) {
-				searchWidgets[i]._clear();
+				searchWidgets[i]._clear(false);
 			}
 			this._fireSearch();
 		},
@@ -252,7 +252,7 @@ define([
 				if (!this._activeFilterDiv) {
 					this._activeFilterDiv = document.createElement("div");
 					this._activeFilterDiv.addEventListener("click", dojoLang.hitch(this, function () {
-						this._clear();
+						this._clear(false);
 						this.onSearchChanged();
 						this._fireSearch();
 					}));
@@ -304,7 +304,7 @@ define([
 						listenerWidget.searchWidget._datasource.reload();
 						// reinit
 						listenerWidget.searchWidget.reinit();
-						listenerWidget._clear();
+						listenerWidget._clear(true);
 					}
 				} else {
 					listenerWidget.searchWidget._datasource.setConstraints();
@@ -312,7 +312,7 @@ define([
 					listenerWidget.searchWidget._datasource.reload();
 					// reinit
 					listenerWidget.searchWidget.reinit();
-					listenerWidget._clear();
+					listenerWidget._clear(true);
 				}
 			}
 		}

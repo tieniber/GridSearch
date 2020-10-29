@@ -35,12 +35,16 @@ define([
          * @todo [x] - set the _currentFilter to null
          * @todo [] - clear the inputs
          */
-        _clear: function () {
+        _clear: function (shouldReload) {
             //this function should clear the search widget
             this._resetActiveClassOnAllButtons();
             this._clickedButtons = [];
             this._currentFilterXpath = "";
             this._currentFilter = null;
+
+            if (shouldReload) {
+                this._fireSearch();
+            }
         },
 
         /**

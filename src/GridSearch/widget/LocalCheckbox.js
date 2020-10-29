@@ -174,14 +174,16 @@ define([
 			//this.onSearchChanged();
 			return constraint;
 		},
-		_clear: function () {
+		_clear: function (shouldReload) {
 			//this.searchNode.value = "";
 			for (var i = 0; i < this._enumOptions.length; i++) {
 				var currentInput = this._enumOptions[i];
 				currentInput.checked = false;
 			}
 			this._currentFilter = null;
-			this._fireSearch();
+			if (shouldReload) {
+				this._fireSearch();
+			}
 		},
 	});
 });
