@@ -88,7 +88,7 @@ define([
 			}
 		},
 		_getSearchConstraint: function () {
-			var value = this._searchNode.value.replace(/'/g, '\'\'');
+			var value = this._searchNode.value.replace(/'/g, '\'\''),
 				searchValues = [],
 				searchParams = [],
 				attributes = this.searchAttributes,
@@ -175,11 +175,13 @@ define([
 				this._clearAllSearchBoxes();
 			}
 		},
-		_clear: function () {
+		_clear: function (shouldReload) {
 			this._searchNode.value = "";
 			dojoClass.add(this.buttonNode, "hidden");
 			this._currentFilter = null;
-			this._fireSearch();
+			if (shouldReload) {
+				this._fireSearch();
+			}
 		},
 	});
 });
