@@ -88,7 +88,7 @@ define([
 			}
 		},
 		_getSearchConstraint: function () {
-			var value = this._searchNode.value.replace(/''/g, '\'\''),
+			var value = this._searchNode.value.replace(/'/g, '&#39;'),
 				searchValues = [],
 				searchParams = [],
 				attributes = this.searchAttributes,
