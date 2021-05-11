@@ -49,6 +49,18 @@ define([
 		_getSearchConstraint: function () {
 			console.error("Widget not implemented properly. A searching widget should implement a _getSearchContraint function.")
 		},
+		_getPagesize: function () {
+			//override this function if the widget sets page size
+			return null;
+		},
+		_getOffset: function () {
+			//override this function if the widget sets offset
+			return null;
+		},
+		_getSort: function () {
+			//override this function if the widget sets sort
+			return null;
+		},
 		_clear: function (shouldReload) {
 			//this function should clear the search widget
 			console.error("Widget not implemented properly. A searching widget should implement a _clear function.")
@@ -127,7 +139,7 @@ define([
 			}, 250);
 		},
 		_fireSearch: function () {
-			var constraints;
+			var constraints, pagesize, offset, sort;
 			this._findSearchableLists();
 			for (var i = 0; i < this._grids.length; i++) {
 				// play nice (only data grids)
@@ -135,27 +147,58 @@ define([
 					constraints = this._grids[i]._searchGetConstraints();
 				} else {
 					constraints = this._getSearchConstraintAllSearchBoxes();
+					pagesize = this._getPagesizeAllWidgets();
+					offset = this._getOffsetAllWidgets();
+					sort = this._getSortAllWidgets();
 				}
-				this._fireSearchOneGrid(this._grids[i], constraints);
+				this._fireSearchOneGrid(this._grids[i], constraints, pagesize, offset, sort);
 			}
 			console.log("Fired search for " + this._grids.length + " grids.")
 			if (this.cascadeKey) {
 				this._cascadeToListeningWidgets();
 			}
 		},
-		_fireSearchOneGrid: function (grid, constraints) {
+		_fireSearchOneGrid: function (grid, constraints, pagesize, offset, sort) {
 			var datasource = grid._datasource,
 				self = this,
-				constraintsChanged = false;
+				constraintsChanged = false,
+				pageSizeChanged = false,
+				offsetChanged = false,
+				sortChanged = false;
 
 			if (!datasource) {
 				datasource = grid._dataSource;
 			}
 
 			if (datasource._constraints !== constraints) {
+				constraintsChanged = true;
+			}
+			if (pagesize !== null && datasource._pageSize !== pagesize) {
+				pageSizeChanged = true;
+			}
+			if (offset !== null && datasource._offset !== offset) {
+				offsetChanged = true;
+			}
+			if (JSON.stringify(JSON.parse(sort)) && JSON.stringify(datasource._sorting) !== sort) {
+				sortChanged = true;
+			}
+
+			if (constraintsChanged || pageSizeChanged || offsetChanged || sortChanged) {
 				if (grid.__customWidgetDataSourceHelper) {
 					//Using ListViewControls
 					grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
+					if (pagesize !== null) {
+						grid.__customWidgetDataSourceHelper.paging.pageSize = pagesize
+						datasource.setPageSize(pagesize);
+					}
+					if (offset !== null) {
+						grid.__customWidgetDataSourceHelper.paging.offset = offset;
+						datasource.setOffset(offset);
+					}
+					if (sort) {
+						grid.__customWidgetDataSourceHelper.sorting = JSON.parse(sort);
+						datasource._sorting = JSON.parse(sort);
+					}
 				} else {
 					//No ListViewControls
 						datasource.setConstraints(constraints);
@@ -168,9 +211,22 @@ define([
 								datasource.setConstraints("[1=0]");
 							}
 						}
+						if (pagesize !== null) {
+							//set page size
+							datasource.setPageSize(pagesize);
+						}
+						if (offset !== null) {
+							//set offset
+							datasource.setOffset(offset);
+							//datasource._setSetSize(pagesize);
+						}
+						if (sort) {
+							//set sort
+							datasource._sorting = JSON.parse(sort);
+						}
 					}
 					self.onSearchChanged();
-					self._reloadOneGrid(grid);
+					self._reloadOneGrid(grid, offsetChanged);
 					console.log("set constraints for grid: " + grid.id)
 			} else {
 				console.log("did not set constraints for grid as they did not change: " + grid.id)
@@ -185,6 +241,45 @@ define([
 			}
 			return fullConstraint;
 		},
+		_getPagesizeAllWidgets: function () {
+			//only allow 1 widget to drive page size
+			//first result wins
+			var searchWidgets = this._searchWidgets[this.targetGridClass];
+			for (var i = 0; i < searchWidgets.length; i++) {
+				var searchWidget = searchWidgets[i];
+				var pageSize = searchWidget._getPagesize();
+				if (pageSize) {
+					return pageSize;
+				}
+			}
+			return null;
+		},
+		_getOffsetAllWidgets: function () {
+			//only allow 1 widget to drive offset
+			//first result wins
+			var searchWidgets = this._searchWidgets[this.targetGridClass];
+			for (var i = 0; i < searchWidgets.length; i++) {
+				var searchWidget = searchWidgets[i];
+				var offset = searchWidget._getOffset();
+				if (offset !== null) {
+					return offset;
+				}
+			}
+			return null;
+		},
+		_getSortAllWidgets: function () {
+			//only allow 1 widget to drive sort
+			//first result wins
+			var searchWidgets = this._searchWidgets[this.targetGridClass];
+			for (var i = 0; i < searchWidgets.length; i++) {
+				var searchWidget = searchWidgets[i];
+				var sort = searchWidget._getSort();
+				if (sort) {
+					return sort;
+				}
+			}
+			return null;
+		},
 		_clearAllSearchBoxes: function (e) {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
 
@@ -193,28 +288,43 @@ define([
 			}
 			this._fireSearch();
 		},
-		_reloadGrid: function () {
+		_reloadGrid: function (forceOffset) {
 			for (var i = 0; i < this._grids.length; i++) {
-				this._reloadOneGrid(this._grids[i]);
+				this._reloadOneGrid(this._grids[i], forceOffset);
 			}
 		},
-		_reloadOneGrid: function (grid) {
+		_reloadOneGrid: function (grid, forceOffset) {
 			//if this grid has List View Controls connected, use its loader instead
-			if (grid.__customWidgetDataSourceHelper) {
+			const callback = () => {
+				grid.__customWidgetPagingLoading = false;
+				this._stopProgressBar();
+				this._setTotalCount(grid);
+			}
+			if (grid.reload) {
+				this._startProgressBarDelay();
+				grid.reload(callback);
+			} else if (forceOffset) {
+				//custom update call where we keep the offset for paging
+				this._startProgressBarDelay();
+				const listNode = grid.domNode.querySelector("ul");
+				while (listNode.firstChild) {
+					listNode.removeChild(listNode.firstChild);
+				}
+				grid.__customWidgetPagingLoading = true;
+				grid.sequence([ "_sourceReload", "_renderData" ], callback);
+			} else if (grid.__customWidgetDataSourceHelper) {
+				//play nice with List View Controls searching
 				var dsh = grid.__customWidgetDataSourceHelper
 				dsh.requiresUpdate = true;
 				dsh.updateDataSource(function() {});
-			} else {
+			} else if (grid.update) {
+				//raw reload/update call
 				this._startProgressBarDelay();
-				if (grid.reload) {
-					grid.reload(this._stopProgressBar.bind(this));
-				} else if (grid.update) {
-					grid.update(undefined, this._stopProgressBar.bind(this));
-				} else {
-					console.log("Could not find the grid refresh/reload function");
-				}
+				grid.update(undefined, callback);
+				
+			} else {
+				console.log("Could not find the grid refresh/reload function");
 			}
-
 		},
 		_startProgressBarDelay: function () {
 			this._pendingLoaders = this._pendingLoaders || [];
@@ -233,6 +343,15 @@ define([
 			if (this._loader) {
 				mx.ui.hideProgress(this._loader);
 				this._loader = null;
+			}
+		},
+		_setTotalCount: function(grid) {
+			if(this.countAttribute) {
+				var datasource = grid._datasource;
+				if (!datasource) {
+					datasource = grid._dataSource;
+				}
+				this._contextObj.set(this.countAttribute, datasource._setSize);
 			}
 		},
 		onSearchChanged: function () {

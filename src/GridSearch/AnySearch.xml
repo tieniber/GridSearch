@@ -53,6 +53,39 @@
             <attributeType name="String" />
           </attributeTypes>
         </property>
+        <property key="sortAttribute" type="attribute" required="false">
+          <caption>Sorting Attribute</caption>
+          <category>Behavior</category>
+          <description>Attribute (on the search helper) that contains the sort structure. Should be an arrow of arrays like:
+          [["Attr1", "asc"], ["Attr2", "desc"]] </description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
+        <property key="pagesizeAttribute" type="attribute" required="false">
+          <caption>Page Size Attribute</caption>
+          <category>Behavior</category>
+          <description>Attribute (on the search helper) that contains the page size.</description>
+          <attributeTypes>
+            <attributeType name="Integer" />
+          </attributeTypes>
+        </property>
+        <property key="offsetAttribute" type="attribute" required="false">
+          <caption>Offset Attribute</caption>
+          <category>Behavior</category>
+          <description>Attribute (on the search helper) that contains the paging offset. This value should be in terms of list items, not pages.</description>
+          <attributeTypes>
+            <attributeType name="Integer" />
+          </attributeTypes>
+        </property>
+        <property key="countAttribute" type="attribute" required="false">
+          <caption>Count Attribute</caption>
+          <category>Behavior</category>
+          <description>Attribute (on the search helper) that will receive the total number of items in the grid.</description>
+          <attributeTypes>
+            <attributeType name="Integer" />
+          </attributeTypes>
+        </property>        
         <property key="onClearMf" type="microflow" required="false">
           <caption>On Clear</caption>
           <category>Behavior</category>

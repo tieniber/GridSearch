@@ -10,6 +10,9 @@ define([
         targetGridClass: null,
         // attribute: null,
         xpathAttribute: null,
+        sortAttribute: null,
+        pagesizeAttribute: null,
+        offsetAttribute: null,
         // microflow: null,
         // nanoflow: null,
         /**
@@ -80,6 +83,25 @@ define([
 
             }
         },
+        _getSort: function () {
+            return this._contextObj.get(this.sortAttribute);
+        },
+        _getPagesize: function () {
+            const pagesize =  this._contextObj.get(this.pagesizeAttribute);
+            if (pagesize) {
+                return parseInt(pagesize.toFixed(0));
+            } else {
+                return null;
+            }
+        },
+        _getOffset: function () {
+            const offset = this._contextObj.get(this.offsetAttribute);
+            if (offset) {
+                return parseInt(offset.toFixed(0));
+            } else {
+                return null;
+            }
+        },
 
         /** 
          * @override
@@ -104,7 +126,7 @@ define([
 
         _finishGridSetup: function (callback) {
             this._resetSubscriptions();
-            this._fireSearch();
+            this._fireSearchWithDelay();
             // this doesn't seem to work :()
             // if (this.getState("searchValue", "")) {
             //     this._contextObj.set(this.xpathAttribute, this.getState("searchValue", ""));
@@ -122,9 +144,36 @@ define([
                 guid: this._contextObj.getGuid(),
                 attr: this.xpathAttribute,
                 callback: () => {
-                    this._fireSearch();
+                    this._fireSearchWithDelay();
                 }
             });
+            if (this.sortAttribute) {
+                this.subscribe({
+                    guid: this._contextObj.getGuid(),
+                    attr: this.sortAttribute,
+                    callback: () => {
+                        this._fireSearchWithDelay();
+                    }
+                });
+            }
+            if (this.pagesizeAttribute) {
+                this.subscribe({
+                    guid: this._contextObj.getGuid(),
+                    attr: this.pagesizeAttribute,
+                    callback: () => {
+                        this._fireSearchWithDelay();
+                    }
+                });
+            }
+            if (this.offsetAttribute) {
+                this.subscribe({
+                    guid: this._contextObj.getGuid(),
+                    attr: this.offsetAttribute,
+                    callback: () => {
+                        this._fireSearchWithDelay();
+                    }
+                });
+            }
             /*this.subscribe({
                 guid: this._contextObj.getGuid(),
                 callback: this._fireSearch
