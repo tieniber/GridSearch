@@ -35,7 +35,7 @@ define([
             eq: "=",
             neq: "!=",
             contains: "contains",
-            startswith: "startswith"
+            startswith: "starts-with"
         },
 
         constructor: function () {
@@ -102,6 +102,7 @@ define([
                 }
             } else if (this._type === "dropdown") {
                 parameters.defaults = null;
+                const dataSourceType = parseInt(mx.version) >= 9 ? "database" : "xpath";
                 if (this._searchEntity === this.gridEntity) {
                     if (this._attributeType === "boolean") {
                         parameters.retriever = "Bool";
@@ -111,11 +112,11 @@ define([
                 } else {
                     parameters.datasource = {
                         params: {},
-                        type: "xpath",
+                        type: dataSourceType,
                     };
                 }
 
-                if (parameters.datasource && parameters.datasource.type === "xpath") {
+                if (parameters.datasource && parameters.datasource.type === dataSourceType) {
                     if (this.constraint) {
                         if (this._contextObj) {
                             this.constraint.replace("[%CurrentObject%]", this._contextObj.getGuid().toString());

@@ -179,7 +179,7 @@ define([
 			if (offset !== null && datasource._offset !== offset) {
 				offsetChanged = true;
 			}
-			if (JSON.stringify(JSON.parse(sort)) && JSON.stringify(datasource._sorting) !== sort) {
+			if (sort && JSON.stringify(JSON.parse(sort)) && JSON.stringify(datasource._sorting) !== sort) {
 				sortChanged = true;
 			}
 
@@ -278,7 +278,7 @@ define([
 					return sort;
 				}
 			}
-			return null;
+			return '';
 		},
 		_clearAllSearchBoxes: function (e) {
 			var searchWidgets = this._searchWidgets[this.targetGridClass];
