@@ -187,11 +187,11 @@ define([
 				if (grid.__customWidgetDataSourceHelper) {
 					//Using ListViewControls
 					grid.__customWidgetDataSourceHelper.store.constraints._none["GridSearch"] = constraints;
-					if (pagesize !== null) {
+					if (pagesize) {
 						grid.__customWidgetDataSourceHelper.paging.pageSize = pagesize
 						datasource.setPageSize(pagesize);
 					}
-					if (offset !== null) {
+					if (offset) {
 						grid.__customWidgetDataSourceHelper.paging.offset = offset;
 						datasource.setOffset(offset);
 					}
@@ -211,11 +211,11 @@ define([
 								datasource.setConstraints("[1=0]");
 							}
 						}
-						if (pagesize !== null) {
+						if (pagesize) {
 							//set page size
 							datasource.setPageSize(pagesize);
 						}
-						if (offset !== null) {
+						if (offset) {
 							//set offset
 							datasource.setOffset(offset);
 							//datasource._setSetSize(pagesize);
