@@ -96,7 +96,9 @@ define([
                         type: "mxui.widget.DatePicker",
                         params: {
                             placeholder: "",
-                            format: ""
+                            format: "",
+                            mode: "date",
+                            selector: "date"                            
                         }
                     };
                 }
