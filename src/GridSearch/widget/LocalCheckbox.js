@@ -29,7 +29,7 @@ define([
 		},
 
 		postCreate: function () {
-			logger.debug(this.id + ".postCreate");
+			mx.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
 			//get static options
@@ -51,7 +51,7 @@ define([
 		},
 
 		update: function (obj, callback) {
-			logger.debug(this.id + ".update");
+			mx.logger.debug(this.id + ".update");
 
 			this._setupGrid(this._finishGridSetup.bind(this));
 
@@ -59,12 +59,6 @@ define([
 			if (callback) { callback() };
 		},
 
-		resize: function (box) {
-			logger.debug(this.id + ".resize");
-		},
-		uninitialize: function () {
-			logger.debug(this.id + ".uninitialize");
-		},
 		storeState: function (t) {
 			//TODO: implement for v1
 			//t("selection", this.selectNode.value);

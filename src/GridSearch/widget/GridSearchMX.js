@@ -43,7 +43,7 @@ define([
         },
 
         postCreate: function () {
-            logger.debug(this.id + ".postCreate");
+            mx.logger.debug(this.id + ".postCreate");
             this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;
@@ -177,12 +177,6 @@ define([
             this._renderingComplete = true;
 
             if (callback) { callback() };
-        },
-        resize: function (box) {
-            logger.debug(this.id + ".resize");
-        },
-        uninitialize: function () {
-            logger.debug(this.id + ".uninitialize");
         },
         storeState: function (t) {
             var currentVal = this.searchWidget.get("value");

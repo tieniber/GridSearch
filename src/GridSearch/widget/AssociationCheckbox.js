@@ -30,9 +30,6 @@ define([
 
         postCreate: function () {
             this.superPostCreate();
-            logger.debug(this.id + ".postCreate");
-
-
 
             //retrieve state (if available)
             //not supported in v1
@@ -41,7 +38,7 @@ define([
         },
 
         update: function (obj, callback) {
-            logger.debug(this.id + ".update");
+            mx.logger.debug(this.id + ".update");
             this._setupGrid(this._finishGridSetup.bind(this));
 
             this._contextObj = obj;
@@ -54,12 +51,6 @@ define([
             };
         },
 
-        resize: function (box) {
-            logger.debug(this.id + ".resize");
-        },
-        uninitialize: function () {
-            logger.debug(this.id + ".uninitialize");
-        },
         storeState: function (t) {
             //TODO: implement for v1
             //t("selection", this.selectNode.value);

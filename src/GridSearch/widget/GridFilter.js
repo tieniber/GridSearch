@@ -23,7 +23,6 @@ define([
 
 
 		postCreate: function () {
-			logger.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
 			this.blankOption.text = this.blankOptionLabel;
@@ -54,19 +53,12 @@ define([
 		},
 
 		update: function (obj, callback) {
-			logger.debug(this.id + ".update");
+			mx.logger.debug(this.id + ".update");
 
 			this._setupGrid(this._finishGridSetup.bind(this));
 
 			this._contextObj = obj;
 			if (callback) { callback() };
-		},
-
-		resize: function (box) {
-			logger.debug(this.id + ".resize");
-		},
-		uninitialize: function () {
-			logger.debug(this.id + ".uninitialize");
 		},
 		storeState: function (t) {
 			t("selection", this.selectNode.value);

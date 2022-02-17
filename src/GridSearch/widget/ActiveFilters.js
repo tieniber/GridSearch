@@ -22,7 +22,7 @@ define([
 		blankOptionLabel: "",
 
 		postCreate: function () {
-			logger.debug(this.id + ".postCreate");
+			mx.logger.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
 			//retrieve state (if available)
@@ -35,7 +35,7 @@ define([
 		},
 
 		update: function (obj, callback) {
-			logger.debug(this.id + ".update");
+			mx.debug(this.id + ".update");
 
 			//this._setupGrid();
 
@@ -43,12 +43,6 @@ define([
 			if (callback) { callback() };
 		},
 
-		resize: function (box) {
-			logger.debug(this.id + ".resize");
-		},
-		uninitialize: function () {
-			logger.debug(this.id + ".uninitialize");
-		},
 		storeState: function (t) {
 			//t("selection", this.selectNode.value);
 		},

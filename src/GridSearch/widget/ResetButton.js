@@ -10,7 +10,7 @@ define([
         buttonCaption: null,
         templateString: widgetTemplate,
         update: function (obj, callback) {
-            logger.debug(this.id + ".update");
+            mx.logger.debug(this.id + ".update");
             this.resetButton.innerText = this.buttonCaption || "";
 
             this._setupGrid();
