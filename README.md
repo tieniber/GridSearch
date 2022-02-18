@@ -1,6 +1,10 @@
 # Grid Search
 Add an interactive search capabilities to all of your grids using a series of widgets!
 
+> :warning: **NOTE: For apps in Mendix 9 and especially 9.6+, you'll need to take steps to ensure compatibility with this widget:**
+> - Ensure grids and lists are using XPath data sources (not database)
+> - For list views on 9.6+, you may need to drop an empty HTMLSnippet (or other dojo-based widget) _inside_ of your list view. This will force the list view to render in compatibility mode as a dojo widget, which is required for Grid Search to function.
+
 The concept behind this widget package is to greatly extend the built-in search capabilities of Mendix list and grid widgets: the Data Grid, the Template Grid, and the List View. You can also search on multiple lists/grids at the same time! These widgets can be placed anywhere on the page, including inside snippets or a sidebar. This widget has also been tested with the "Slide In" widget, which provides a custom sidebar.
 
 The widgets offer features like multi-field searching, checkboxes, dropdowns, date filters, plus a fully customizable "Any Search" widget that allows you to create any search interface you like using Mendix widgets and microflows. Any search criteria that can be written in XPath is supported.
