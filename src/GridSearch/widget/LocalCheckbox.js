@@ -29,7 +29,6 @@ define([
 		},
 
 		postCreate: function () {
-			mx.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
 			//get static options
@@ -51,8 +50,6 @@ define([
 		},
 
 		update: function (obj, callback) {
-			mx.logger.debug(this.id + ".update");
-
 			this._setupGrid(this._finishGridSetup.bind(this));
 
 			this._contextObj = obj;

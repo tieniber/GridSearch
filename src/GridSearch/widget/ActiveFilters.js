@@ -22,7 +22,6 @@ define([
 		blankOptionLabel: "",
 
 		postCreate: function () {
-			mx.logger.debug(this.id + ".postCreate");
 			this.superPostCreate();
 
 			//retrieve state (if available)
@@ -35,8 +34,6 @@ define([
 		},
 
 		update: function (obj, callback) {
-			mx.debug(this.id + ".update");
-
 			//this._setupGrid();
 
 			this._contextObj = obj;

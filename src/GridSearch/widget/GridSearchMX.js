@@ -43,7 +43,6 @@ define([
         },
 
         postCreate: function () {
-            mx.logger.debug(this.id + ".postCreate");
             this.superPostCreate();
 
             this.pathToAttribute = this.pathToAttribute || this.stringPathToAttribute;

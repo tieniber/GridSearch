@@ -32,7 +32,6 @@ define([
 
 		postCreate: function () {
 			this.superPostCreate();
-			mx.logger.debug(this.id + ".postCreate");
 
 			if (this.renderAsTextarea) {
 				this._searchNode = this.searchNodeMulti;
@@ -54,7 +53,6 @@ define([
 		},
 
 		update: function (obj, callback) {
-			mx.logger.debug(this.id + ".update");
 			this._setupGrid(this._finishGridSetup.bind(this));
 			this._contextObj = obj;
 			this._updateRendering(callback);
@@ -63,7 +61,6 @@ define([
 			t("searchValue", this._searchNode.value);
 		},
 		_updateRendering: function (callback) {
-			mx.logger.debug(this.id + "._updateRendering");
 
 			if (callback) { callback() };
 		},
